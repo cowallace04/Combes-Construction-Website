@@ -1,0 +1,283 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap");
+@import url("./combes-colors.css");
+
+/* ========================================
+   Document defaults
+   ======================================== */
+
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  text-rendering: optimizeLegibility;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* ========================================
+   Typography
+   ======================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans-heading);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.015em;
+}
+
+h1 {
+  font-size: clamp(2.75rem, 6vw, 5.5rem);
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3.75rem);
+}
+
+h3 {
+  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+}
+
+p {
+  margin-top: 0;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+  transition:
+    color var(--transition-fast),
+    text-decoration-color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--color-blue-soft);
+  outline-offset: 3px;
+}
+
+/* ========================================
+   Shared layout
+   ======================================== */
+
+.site-container {
+  width: min(
+    calc(100% - var(--space-6)),
+    var(--content-width)
+  );
+  margin-inline: auto;
+}
+
+.site-container--narrow {
+  width: min(
+    calc(100% - var(--space-6)),
+    var(--content-width-narrow)
+  );
+  margin-inline: auto;
+}
+
+.site-section {
+  padding-block: var(--space-9);
+}
+
+.site-section--blue {
+  background-color: var(--color-bg-section);
+}
+
+.site-section--surface {
+  background-color: var(--color-surface-alt);
+}
+
+/* ========================================
+   Header and navigation
+   ======================================== */
+
+.site-header {
+  position: relative;
+  z-index: 100;
+  background-color: rgb(5 8 20 / 96%);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 5rem;
+  gap: var(--space-6);
+}
+
+.site-header__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.site-header__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3rem;
+  padding-block: var(--space-4);
+  color: var(--color-text-muted);
+  font-family: var(--font-sans-heading);
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.site-header__link:hover,
+.site-header__link:focus-visible {
+  color: var(--color-text-primary);
+}
+
+.site-header__link--active {
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-blue-accent);
+}
+
+/* ========================================
+   Buttons
+   ======================================== */
+
+.button,
+.wp-block-button__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: var(--space-3) var(--space-5);
+  color: var(--color-text-on-blue);
+  font-family: var(--font-sans-heading);
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  background-color: var(--color-blue-primary);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.button:hover,
+.wp-block-button__link:hover {
+  color: var(--color-text-on-blue);
+  background-color: var(--color-blue-secondary);
+  transform: translateY(-1px);
+}
+
+.button--secondary {
+  color: var(--color-text-primary);
+  background-color: transparent;
+  border-color: var(--color-border-strong);
+}
+
+.button--secondary:hover {
+  background-color: var(--color-surface-alt);
+  border-color: var(--color-blue-soft);
+}
+
+/* ========================================
+   Cards
+   ======================================== */
+
+.card {
+  overflow: hidden;
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-large);
+}
+
+.card__content {
+  padding: var(--space-5);
+}
+
+.card__meta {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}
+
+/* ========================================
+   Footer
+   ======================================== */
+
+.site-footer {
+  padding-block: var(--space-8);
+  color: var(--color-text-muted);
+  background-color: var(--color-bg-section);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.site-footer a {
+  color: var(--color-blue-soft);
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  color: var(--color-text-primary);
+}
+
+/* ========================================
+   Reduced motion
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
