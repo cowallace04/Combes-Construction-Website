@@ -1,0 +1,33 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# VS Code local settings
+.vscode/
+
+# WordPress configuration and generated content
+wp-config.php
+wordpress/wp-content/uploads/
+wordpress/wp-content/cache/
+wordpress/wp-content/upgrade/
+wordpress/wp-content/backups/
+wordpress/wp-content/ai1wm-backups/
+
+# Dependencies
+node_modules/
+vendor/
+
+# Environment files and secrets
+.env
+.env.*
+*.local
+
+# Logs
+*.log
+
+# Archives and database exports
+*.zip
+*.sql
+*.sqlite
+*.sqlite3
