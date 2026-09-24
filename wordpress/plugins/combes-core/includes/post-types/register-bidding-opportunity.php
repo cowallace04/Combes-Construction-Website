@@ -36,7 +36,7 @@ function combes_core_register_bidding_opportunity_post_type() {
         'menu_icon'          => 'dashicons-media-spreadsheet',
         'supports'           => array(
             'title',        // Bid/project name
-            'editor',       // Description / scope summary
+            'editor',       // Summary / scope
             'excerpt',
             'revisions',
             'custom-fields'
