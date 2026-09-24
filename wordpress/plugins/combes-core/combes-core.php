@@ -8,7 +8,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
+    exit;
 }
 
 define( 'COMBES_CORE_VERSION', '0.1.0' );
@@ -34,7 +34,7 @@ function combes_core_load_includes() {
     require_once COMBES_CORE_PATH . 'includes/metadata/register-job-meta.php';
     require_once COMBES_CORE_PATH . 'includes/metadata/register-bid-meta.php';
 
-    // Admin meta boxes: load only in WP admin so Playground's CLI install doesn't choke.
+    // Admin meta boxes: only load in the real admin UI.
     if ( is_admin() ) {
         require_once COMBES_CORE_PATH . 'includes/admin/register-meta-boxes.php';
     }
