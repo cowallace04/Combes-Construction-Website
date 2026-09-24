@@ -61,18 +61,27 @@ function combes_core_render_project_meta_box( $post ) {
 
     wp_nonce_field( 'combes_project_meta_nonce', 'combes_project_meta_nonce' );
 
-    $location  = get_post_meta( $post->ID, 'combes_project_location', true );
-    $owner     = get_post_meta( $post->ID, 'combes_project_owner', true );
-    $architect = get_post_meta( $post->ID, 'combes_project_architect', true );
-    $timeline  = get_post_meta( $post->ID, 'combes_project_timeline', true );
-    $featured  = get_post_meta( $post->ID, 'combes_project_featured', true );
-    $order     = get_post_meta( $post->ID, 'combes_project_display_order', true );
+    $location        = get_post_meta( $post->ID, 'combes_project_location', true );
+    $address         = get_post_meta( $post->ID, 'combes_project_address', true );
+    $owner           = get_post_meta( $post->ID, 'combes_project_owner', true );
+    $architect       = get_post_meta( $post->ID, 'combes_project_architect', true );
+    $completion_date = get_post_meta( $post->ID, 'combes_project_completion_date', true );
+    $featured        = get_post_meta( $post->ID, 'combes_project_featured', true );
+    $order           = get_post_meta( $post->ID, 'combes_project_display_order', true );
+
     ?>
 
-    <p>
+       <p>
         <label for="combes_project_location"><strong>Location</strong> (city, state)</label><br>
         <input type="text" id="combes_project_location" name="combes_project_location"
                value="<?php echo esc_attr( $location ); ?>" class="widefat">
+    </p>
+
+    <p>
+        <label for="combes_project_address"><strong>Address</strong></label><br>
+        <input type="text" id="combes_project_address" name="combes_project_address"
+               value="<?php echo esc_attr( $address ); ?>" class="widefat"
+               placeholder="Street address, city, state, ZIP">
     </p>
 
     <p>
@@ -88,9 +97,9 @@ function combes_core_render_project_meta_box( $post ) {
     </p>
 
     <p>
-        <label for="combes_project_timeline"><strong>Timeline</strong></label><br>
-        <input type="text" id="combes_project_timeline" name="combes_project_timeline"
-               value="<?php echo esc_attr( $timeline ); ?>" class="widefat">
+        <label for="combes_project_completion_date"><strong>Completion date</strong></label><br>
+        <input type="date" id="combes_project_completion_date" name="combes_project_completion_date"
+               value="<?php echo esc_attr( $completion_date ); ?>">
     </p>
 
     <p>
@@ -106,6 +115,7 @@ function combes_core_render_project_meta_box( $post ) {
         <input type="number" id="combes_project_display_order" name="combes_project_display_order"
                value="<?php echo esc_attr( $order ); ?>" class="small-text">
     </p>
+
 
     <?php
 }
@@ -128,13 +138,15 @@ function combes_core_save_project_meta_box( $post_id ) {
         return;
     }
 
-    $fields = array(
-        'combes_project_location'      => 'sanitize_text_field',
-        'combes_project_owner'         => 'sanitize_text_field',
-        'combes_project_architect'     => 'sanitize_text_field',
-        'combes_project_timeline'      => 'sanitize_text_field',
-        'combes_project_display_order' => 'intval',
+     $fields = array(
+        'combes_project_location'        => 'sanitize_text_field',
+        'combes_project_address'         => 'sanitize_text_field',
+        'combes_project_owner'           => 'sanitize_text_field',
+        'combes_project_architect'       => 'sanitize_text_field',
+        'combes_project_completion_date' => 'sanitize_text_field',
+        'combes_project_display_order'   => 'intval',
     );
+
 
     foreach ( $fields as $key => $sanitize ) {
         if ( isset( $_POST[ $key ] ) ) {

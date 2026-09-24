@@ -9,18 +9,20 @@ if ( have_posts() ) :
     while ( have_posts() ) :
         the_post();
 
-        $project_id = get_the_ID();
+                $project_id = get_the_ID();
 
-        $location  = get_post_meta( $project_id, 'combes_project_location', true );
-        $owner     = get_post_meta( $project_id, 'combes_project_owner', true );
-        $architect = get_post_meta( $project_id, 'combes_project_architect', true );
-        $timeline  = get_post_meta( $project_id, 'combes_project_timeline', true );
+        $location   = get_post_meta( $project_id, 'combes_project_location', true );
+        $address    = get_post_meta( $project_id, 'combes_project_address', true );
+        $owner      = get_post_meta( $project_id, 'combes_project_owner', true );
+        $architect  = get_post_meta( $project_id, 'combes_project_architect', true );
+        $completion = get_post_meta( $project_id, 'combes_project_completion_date', true );
 
-        $status_terms  = get_the_terms( $project_id, 'combes_project_status' );
-        $status_label  = ( $status_terms && ! is_wp_error( $status_terms ) ) ? $status_terms[0]->name : '';
+        $status_terms = get_the_terms( $project_id, 'combes_project_status' );
+        $status_label = ( $status_terms && ! is_wp_error( $status_terms ) ) ? $status_terms[0]->name : '';
 
-        $type_terms    = get_the_terms( $project_id, 'combes_project_type' );
-        $type_label    = ( $type_terms && ! is_wp_error( $type_terms ) ) ? $type_terms[0]->name : '';
+        $type_terms   = get_the_terms( $project_id, 'combes_project_type' );
+        $type_label   = ( $type_terms && ! is_wp_error( $type_terms ) ) ? $type_terms[0]->name : '';
+
         ?>
 
         <main id="primary" class="site-main site-main--project">
@@ -44,9 +46,12 @@ if ( have_posts() ) :
                             <?php the_title(); ?>
                         </h1>
 
-                        <ul class="project-summary">
+                                                <ul class="project-summary">
                             <?php if ( $location ) : ?>
                                 <li><strong>Location:</strong> <?php echo esc_html( $location ); ?></li>
+                            <?php endif; ?>
+                            <?php if ( $address ) : ?>
+                                <li><strong>Address:</strong> <?php echo esc_html( $address ); ?></li>
                             <?php endif; ?>
                             <?php if ( $owner ) : ?>
                                 <li><strong>Owner:</strong> <?php echo esc_html( $owner ); ?></li>
@@ -57,10 +62,11 @@ if ( have_posts() ) :
                             <?php if ( $type_label ) : ?>
                                 <li><strong>Type:</strong> <?php echo esc_html( $type_label ); ?></li>
                             <?php endif; ?>
-                            <?php if ( $timeline ) : ?>
-                                <li><strong>Timeline:</strong> <?php echo esc_html( $timeline ); ?></li>
+                            <?php if ( $completion ) : ?>
+                                <li><strong>Completion date:</strong> <?php echo esc_html( $completion ); ?></li>
                             <?php endif; ?>
                         </ul>
+
                     </div>
                 </header>
 

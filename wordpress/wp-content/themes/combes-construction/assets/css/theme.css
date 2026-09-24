@@ -526,5 +526,110 @@ textarea:focus-visible {
     margin: 0 auto;
   }
 }
+/* Home hero */
+.home-hero {
+  background: radial-gradient(circle at top left, #0b1120 0, #050814 55%, #050814 100%);
+  color: var(--color-text-primary);
+}
+.home-hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: center;
+}
+.home-hero__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  color: var(--color-blue-soft);
+  margin-bottom: 0.5rem;
+}
+.home-hero__title {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin: 0 0 0.75rem;
+}
+.home-hero__lead {
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+}
+.home-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.button--ghost {
+  background-color: transparent;
+  color: var(--color-blue-soft);
+  border: 1px solid var(--color-blue-soft);
+}
+.button--ghost:hover {
+  background-color: var(--color-blue-soft);
+  color: #ffffff;
+}
+
+.home-hero__media-placeholder {
+  border-radius: 1rem;
+  border: 1px dashed var(--color-border-subtle);
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  background: linear-gradient(135deg, rgba(31,77,158,0.3), rgba(5,8,20,0.9));
+}
+
+/* Home featured projects */
+.home-projects {
+  background-color: var(--color-bg-base);
+}
+.home-projects__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.home-projects__view-all {
+  font-size: 0.9rem;
+  color: var(--color-blue-soft);
+  text-decoration: none;
+}
+.home-projects__view-all:hover {
+  color: var(--color-blue-secondary);
+}
+.home-projects__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Home services */
+.home-services {
+  background-color: var(--color-bg-section);
+}
+.home-services__inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.75rem;
+}
+.home-services__item h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+.home-services__item p {
+  color: var(--color-text-muted);
+}
+
+/* Responsive */
+@media (max-width: 920px) {
+  .home-hero__inner {
+    grid-template-columns: 1fr;
+  }
+  .home-hero__media {
+    order: -1;
+  }
+}
 
 }

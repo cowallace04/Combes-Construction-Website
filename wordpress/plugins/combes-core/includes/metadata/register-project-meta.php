@@ -73,6 +73,22 @@ function combes_core_register_project_meta() {
         )
     );
 
+        // Location (city, state) - already there.
+
+    // Address (full street address).
+    register_post_meta(
+        $post_type,
+        'combes_project_address',
+        array(
+            'type'              => 'string',
+            'single'            => true,
+            'sanitize_callback' => 'sanitize_text_field',
+            'auth_callback'     => 'combes_core_meta_auth_callback',
+            'show_in_rest'      => true,
+        )
+    );
+
+
     // Completion date (stored as YYYY-MM-DD).
     register_post_meta(
         $post_type,
