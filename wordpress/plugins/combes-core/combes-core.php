@@ -31,5 +31,13 @@ function combes_core_load_includes() {
     // Metadata.
     require_once COMBES_CORE_PATH . 'includes/metadata/register-project-meta.php';
     require_once COMBES_CORE_PATH . 'includes/metadata/register-team-meta.php';
+    require_once COMBES_CORE_PATH . 'includes/metadata/register-job-meta.php';
+    require_once COMBES_CORE_PATH . 'includes/metadata/register-bid-meta.php';
+
+    // Admin.
+    require_once COMBES_CORE_PATH . 'includes/admin/register-meta-boxes.php';
 }
+
 add_action( 'plugins_loaded', 'combes_core_load_includes' );
+// Admin.
+
