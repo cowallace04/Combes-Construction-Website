@@ -34,10 +34,9 @@ function combes_core_load_includes() {
     require_once COMBES_CORE_PATH . 'includes/metadata/register-job-meta.php';
     require_once COMBES_CORE_PATH . 'includes/metadata/register-bid-meta.php';
 
-    // Admin.
-    require_once COMBES_CORE_PATH . 'includes/admin/register-meta-boxes.php';
+    // Admin meta boxes: load only in WP admin so Playground's CLI install doesn't choke.
+    if ( is_admin() ) {
+        require_once COMBES_CORE_PATH . 'includes/admin/register-meta-boxes.php';
+    }
 }
-
 add_action( 'plugins_loaded', 'combes_core_load_includes' );
-// Admin.
-

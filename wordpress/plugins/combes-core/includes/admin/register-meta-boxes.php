@@ -1,8 +1,4 @@
 <?php
-/**
- * Admin meta boxes for Projects and Team Members.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
@@ -31,7 +27,29 @@ function combes_core_add_meta_boxes() {
         'normal',
         'high'
     );
+
+    // Job Openings.
+    add_meta_box(
+        'combes_job_details',
+        __( 'Job Details', 'combes-core' ),
+        'combes_core_render_job_meta_box',
+        'combes_job_opening',
+        'normal',
+        'high'
+    );
+
+    // Bidding Opportunities.
+    add_meta_box(
+        'combes_bid_details',
+        __( 'Bidding Details', 'combes-core' ),
+        'combes_core_render_bid_meta_box',
+        'combes_bid_opportunity',
+        'normal',
+        'high'
+    );
 }
+add_action( 'add_meta_boxes', 'combes_core_add_meta_boxes' );
+
 add_action( 'add_meta_boxes', 'combes_core_add_meta_boxes' );
 
 /**
