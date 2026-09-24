@@ -1,21 +1,58 @@
 <!-- wp:group {"tagName":"footer","align":"full","className":"site-footer","backgroundColor":"section-background","layout":{"type":"constrained"}} -->
 <footer class="wp-block-group alignfull site-footer has-section-background-background-color has-background">
-  <!-- wp:group {"align":"wide","layout":{"type":"constrained"}} -->
-  <div class="wp-block-group alignwide">
-    <!-- wp:site-logo {"width":225,"shouldSyncIcon":false} /-->
+  <!-- wp:columns {"align":"wide"} -->
+  <div class="wp-block-columns alignwide">
+    <!-- wp:column {"width":"40%"} -->
+    <div class="wp-block-column" style="flex-basis:40%">
+      <!-- wp:site-logo {"width":260,"shouldSyncIcon":false} /-->
 
-    <!-- wp:paragraph -->
-    <p>General Contractors · Design/Build · Construction Managers</p>
-    <!-- /wp:paragraph -->
+      <!-- wp:paragraph -->
+      <p>General Contractors · Design/Build · Construction Managers</p>
+      <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:column -->
 
-    <!-- wp:paragraph -->
-    <p>6946 W 207th St, Bucyrus, KS 66013 · 913-782-9400</p>
-    <!-- /wp:paragraph -->
+    <!-- wp:column {"width":"30%"} -->
+    <div class="wp-block-column" style="flex-basis:30%">
+      <!-- wp:heading {"level":3,"fontSize":"lead"} -->
+      <h3 class="wp-block-heading has-lead-font-size">Contact</h3>
+      <!-- /wp:heading -->
 
-    <!-- wp:paragraph {"fontSize":"small"} -->
-    <p class="has-small-font-size">© Combes Construction, LLC</p>
-    <!-- /wp:paragraph -->
+      <!-- wp:paragraph -->
+      <p>
+        6946 W 207th St<br>
+        Bucyrus, KS 66013
+      </p>
+      <!-- /wp:paragraph -->
+
+      <!-- wp:paragraph -->
+      <p>
+        <a href="tel:+00913-782-9400</a>
+      </p>
+      <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:column -->
+
+    <!-- wp:column {"width":"30%"} -->
+    <div class="wp-block-column" style="flex-basis:30%">
+      <!-- wp:heading {"level":3,"fontSize":"lead"} -->
+      <h3 class="wp-block-heading has-lead-font-size">Explore</h3>
+      <!-- /wp:heading -->
+
+      <!-- wp:navigation {"overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"}} /-->
+    </div>
+    <!-- /wp:column -->
   </div>
-  <!-- /wp:group -->
+  <!-- /wp:columns -->
+
+  <!-- wp:separator {"align":"wide","backgroundColor":"soft-blue","className":"is-style-wide"} -->
+  <hr class="wp-block-separator alignwide has-text-color has-soft-blue-color has-alpha-channel-opacity has-soft-blue-background-color has-background is-style-wide"/>
+  <!-- /wp:separator -->
+
+  <!-- wp:paragraph {"align":"center","fontSize":"small"} -->
+  <p class="has-text-align-center has-small-font-size">
+    © Combes Construction, LLC
+  </p>
+  <!-- /wp:paragraph -->
 </footer>
 <!-- /wp:group -->
