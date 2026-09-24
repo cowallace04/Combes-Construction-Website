@@ -107,6 +107,56 @@ get_header();
         </div>
     </section>
 
+    <section class="section home-stats" data-animate="fade-up">
+  <div class="section__inner home-stats__inner">
+
+    <div class="home-stat">
+      <div class="stat-counter"
+           data-counter
+           data-counter-target="50"
+           data-counter-duration="1200">
+        0
+      </div>
+      <p class="stat-label">Projects Completed</p>
+    </div>
+
+    <div class="home-stat">
+      <div class="stat-counter"
+           data-counter
+           data-counter-target="20"
+           data-counter-duration="1200">
+        0
+      </div>
+      <p class="stat-label">Years Experience</p>
+    </div>
+
+    <div class="home-stat">
+      <div class="stat-counter"
+           data-counter
+           data-counter-target="100"
+           data-counter-duration="1500">
+        0
+      </div>
+      <p class="stat-label">$M+ Completed Construction Value</p>
+    </div>
+
+  </div>
+</section>
+<section class="section home-contact-cta section--parallax"
+         style="background-image: url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/contact-cta.jpg' ); ?>');"
+         data-parallax
+         data-parallax-speed="0.2">
+
+  <div class="section__inner">
+    <h2 data-animate="fade-up">Ready to Build?</h2>
+    <p data-animate="fade-up" data-animate-delay="1">Let’s discuss your next project.</p>
+    <a class="button" href="<?php echo esc_url( home_url( '/contact-us/' ) ); ?>" data-animate="fade-up" data-animate-delay="2">
+      Contact Us
+    </a>
+  </div>
+</section>
+
+
 </main>
 
 <?php

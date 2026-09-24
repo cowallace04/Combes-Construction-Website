@@ -22,9 +22,15 @@ function combes_featured_projects_shortcode( $atts ) {
         'combes_featured_projects'
     );
 
-    $query = new WP_Query( array(
+    $count = (int) $atts['count'];
+    if ( $count <= 0 ) {
+        $count = 6;
+    }
+
+    // First try: featured projects only.
+    $query_args = array(
         'post_type'      => 'combes_project',
-        'posts_per_page' => (int) $atts['count'],
+        'posts_per_page' => $count,
         'meta_query'     => array(
             array(
                 'key'     => 'combes_project_featured',
@@ -37,10 +43,21 @@ function combes_featured_projects_shortcode( $atts ) {
             'date'           => 'DESC',
         ),
         'meta_key'       => 'combes_project_display_order',
-    ) );
+    );
+
+    $query = new WP_Query( $query_args );
+
+    // Fallback: if no featured projects, show latest projects (no meta_query).
+    if ( ! $query->have_posts() ) {
+        $query = new WP_Query( array(
+            'post_type'      => 'combes_project',
+            'posts_per_page' => $count,
+            'orderby'        => 'date',
+            'order'          => 'DESC',
+        ) );
+    }
 
     ob_start();
-
     ?>
     <section class="section home-projects">
         <div class="section__inner">
@@ -63,7 +80,7 @@ function combes_featured_projects_shortcode( $atts ) {
                 </div>
             <?php else : ?>
                 <p class="home-projects__empty">
-                    Mark key projects as &ldquo;Featured&rdquo; in the Project Details box to show them here.
+                    No projects are published yet.
                 </p>
             <?php endif; ?>
         </div>
@@ -73,3 +90,21 @@ function combes_featured_projects_shortcode( $atts ) {
     return ob_get_clean();
 }
 add_shortcode( 'combes_featured_projects', 'combes_featured_projects_shortcode' );
+
+<?php
+// ... existing code (shortcode, etc.)
+
+function combes_theme_enqueue_assets() {
+    // Main stylesheet is already enqueued from functions.php or style.css.
+    // Add the theme JS for animations.
+    wp_enqueue_script(
+        'combes-theme',
+        get_template_directory_uri() . '/assets/js/theme.js',
+        array(),
+        '1.0.0',
+        true
+    );
+}
+add_action( 'wp_enqueue_scripts', 'combes_theme_enqueue_assets' );
+
+

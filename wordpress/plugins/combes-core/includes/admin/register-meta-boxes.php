@@ -68,10 +68,9 @@ function combes_core_render_project_meta_box( $post ) {
     $completion_date = get_post_meta( $post->ID, 'combes_project_completion_date', true );
     $featured        = get_post_meta( $post->ID, 'combes_project_featured', true );
     $order           = get_post_meta( $post->ID, 'combes_project_display_order', true );
-
     ?>
 
-       <p>
+    <p>
         <label for="combes_project_location"><strong>Location</strong> (city, state)</label><br>
         <input type="text" id="combes_project_location" name="combes_project_location"
                value="<?php echo esc_attr( $location ); ?>" class="widefat">
@@ -105,17 +104,16 @@ function combes_core_render_project_meta_box( $post ) {
     <p>
         <label for="combes_project_featured">
             <input type="checkbox" id="combes_project_featured" name="combes_project_featured"
-                   value="1" <?php checked( $featured, true ); ?>>
+                   value="1" <?php checked( (bool) $featured, true ); ?>>
             <strong>Featured project</strong>
         </label>
     </p>
 
     <p>
-        <label for="combes_project_display_order"><strong>Display order</strong> (lower shows earlier)</label><br>
+        <label for="combes_project_display_order"><strong>Display order</strong> (0 = default; lower shows earlier)</label><br>
         <input type="number" id="combes_project_display_order" name="combes_project_display_order"
-               value="<?php echo esc_attr( $order ); ?>" class="small-text">
+               value="<?php echo esc_attr( $order ); ?>" class="small-text" min="0" step="1">
     </p>
-
 
     <?php
 }
@@ -125,6 +123,7 @@ function combes_core_render_project_meta_box( $post ) {
  */
 function combes_core_save_project_meta_box( $post_id ) {
 
+    // Correct nonce / autosave / capability checks.
     if ( ! isset( $_POST['combes_project_meta_nonce'] ) ||
          ! wp_verify_nonce( $_POST['combes_project_meta_nonce'], 'combes_project_meta_nonce' ) ) {
         return;
@@ -138,26 +137,36 @@ function combes_core_save_project_meta_box( $post_id ) {
         return;
     }
 
-     $fields = array(
-        'combes_project_location'        => 'sanitize_text_field',
-        'combes_project_address'         => 'sanitize_text_field',
-        'combes_project_owner'           => 'sanitize_text_field',
-        'combes_project_architect'       => 'sanitize_text_field',
-        'combes_project_completion_date' => 'sanitize_text_field',
-        'combes_project_display_order'   => 'intval',
+    // Text fields.
+    $fields = array(
+        'combes_project_location',
+        'combes_project_address',
+        'combes_project_owner',
+        'combes_project_architect',
+        'combes_project_completion_date',
     );
 
-
-    foreach ( $fields as $key => $sanitize ) {
+    foreach ( $fields as $key ) {
         if ( isset( $_POST[ $key ] ) ) {
-            update_post_meta( $post_id, $key, call_user_func( $sanitize, $_POST[ $key ] ) );
+            update_post_meta( $post_id, $key, sanitize_text_field( wp_unslash( $_POST[ $key ] ) ) );
         }
     }
 
+    // Display order: clamp to >= 0.
+    if ( isset( $_POST['combes_project_display_order'] ) ) {
+        $order = intval( $_POST['combes_project_display_order'] );
+        if ( $order < 0 ) {
+            $order = 0;
+        }
+        update_post_meta( $post_id, 'combes_project_display_order', $order );
+    }
+
+    // Featured checkbox: present = 1, absent = 0.
     $featured = isset( $_POST['combes_project_featured'] ) ? 1 : 0;
     update_post_meta( $post_id, 'combes_project_featured', $featured );
 }
 add_action( 'save_post_combes_project', 'combes_core_save_project_meta_box' );
+
 
 /**
  * Team Member meta box UI.
