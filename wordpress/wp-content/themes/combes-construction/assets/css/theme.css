@@ -280,4 +280,123 @@ textarea:focus-visible {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+
+  /* Sections */
+.section {
+  padding: 4rem 1.5rem;
+}
+.section__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section--projects-hero {
+  background-color: var(--color-bg-section);
+}
+.section--projects-grid {
+  background-color: var(--color-bg-base);
+}
+.section-title {
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+.section-lead {
+  max-width: 40rem;
+  color: var(--color-text-muted);
+}
+
+/* Grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.75rem;
+}
+
+/* Project card */
+.card.card--project {
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card--project .card__link {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.card--project .card__media {
+  position: relative;
+  overflow: hidden;
+}
+.card--project .card__image {
+  width: 100%;
+  height: 0;
+  padding-bottom: 66.66%; /* 3:2 ratio */
+  object-fit: cover;
+}
+.card__image--placeholder {
+  background-color: var(--color-bg-section);
+}
+.card--project .card__status {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background-color: var(--color-blue-primary);
+  color: #ffffff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.card--project .card__body {
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+.card--project .card__title {
+  font-size: 1.1rem;
+  margin: 0 0 0.25rem;
+}
+.card--project .card__location {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+.card--project .card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.card__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+}
+.card__chip--type {
+  background-color: var(--color-blue-accent);
+  color: #ffffff;
+}
+.card__chip--timeline {
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+}
+.card--project .card__excerpt {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.75rem;
+}
+.card--project .card__cta {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-blue-soft);
+}
+
+.card.card--project:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.45);
+  border-color: var(--color-blue-soft);
+}
+
 }
