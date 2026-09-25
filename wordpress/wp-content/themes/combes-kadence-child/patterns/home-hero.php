@@ -21,13 +21,13 @@
 
         <!-- Headline -->
         <!-- wp:heading {"level":1,"className":"home-hero__title animate-fade-up animate-delay-1"} -->
-        <h1 class="home-hero__title animate-fade-up animate-delay-1">Building Excellence Across Texas</h1>
+        <h1 class="home-hero__title animate-fade-up animate-delay-1">Building Excellence Across Kansas City since 2001</h1>
         <!-- /wp:heading -->
 
         <!-- Subcopy -->
         <!-- wp:paragraph {"className":"home-hero__lead animate-fade-up animate-delay-2"} -->
         <p class="home-hero__lead animate-fade-up animate-delay-2">
-          General Contractors · Design/Build · Construction Managers delivering municipal, education, and commercial projects.
+          General Contractors · Design/Build · Construction Managers
         </p>
         <!-- /wp:paragraph -->
 

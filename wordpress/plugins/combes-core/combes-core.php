@@ -74,6 +74,7 @@ function combes_core_register_post_types() {
             'revisions',
             'custom-fields',
         ),
+        // We can keep has_archive or rely solely on the Projects page; for now keep:
         'has_archive'        => 'projects',
         'rewrite'            => array(
             'slug'       => 'projects',
@@ -176,7 +177,7 @@ function combes_core_register_post_types() {
 
     register_post_type( 'combes_job_opening', $job_args );
 
-    /* Bidding Opportunities (combes_bid_opportunity) */
+    /* Bidding Opportunities (combes_bid_opportunity) – future use */
     $bid_labels = array(
         'name'               => __( 'Bidding Opportunities', 'combes-core' ),
         'singular_name'      => __( 'Bidding Opportunity', 'combes-core' ),
@@ -222,3 +223,113 @@ function combes_core_register_post_types() {
     register_post_type( 'combes_bid_opportunity', $bid_args );
 }
 add_action( 'init', 'combes_core_register_post_types' );
+
+/**
+ * On plugin activation, create core pages & primary menu.
+ */
+function combes_core_activate() {
+    // Make sure post types exist during activation.
+    combes_core_register_post_types();
+
+    // Define pages to create: slug => [title, template].
+    $pages = array(
+        'home' => array(
+            'title'    => 'Home',
+            'template' => 'front-page.php',
+        ),
+        'about-us' => array(
+            'title'    => 'About Us',
+            'template' => 'page.php', // default page template; you can later create page-about.php if desired.
+        ),
+        'our-process' => array(
+            'title'    => 'Our Process',
+            'template' => 'page-process.php',
+        ),
+        'projects' => array(
+            'title'    => 'Projects',
+            'template' => 'page-projects.php',
+        ),
+        'our-people' => array(
+            'title'    => 'Our People',
+            'template' => 'page-people.php',
+        ),
+        'careers' => array(
+            'title'    => 'Careers',
+            'template' => 'page-careers.php',
+        ),
+        'bidding-opportunities' => array(
+            'title'    => 'Bidding Opportunities',
+            'template' => 'page-bidding.php', // you can add this in the child theme later.
+        ),
+        'contact-us' => array(
+            'title'    => 'Contact Us',
+            'template' => 'page-contact.php',
+        ),
+    );
+
+    $page_ids = array();
+
+    foreach ( $pages as $slug => $config ) {
+        $existing = get_page_by_path( $slug );
+        if ( $existing ) {
+            $page_id = $existing->ID;
+        } else {
+            $page_id = wp_insert_post(
+                array(
+                    'post_title'   => $config['title'],
+                    'post_name'    => $slug,
+                    'post_type'    => 'page',
+                    'post_status'  => 'publish',
+                    'post_content' => '', // content will be filled via patterns or editor.
+                )
+            );
+        }
+
+        if ( $page_id && ! empty( $config['template'] ) ) {
+            update_post_meta( $page_id, '_wp_page_template', $config['template'] );
+        }
+
+        $page_ids[ $slug ] = $page_id;
+    }
+
+    // Create primary navigation menu if it doesn't exist.
+    $menu_name = 'Combes Primary Navigation';
+    $menu = wp_get_nav_menu_object( $menu_name );
+    if ( ! $menu ) {
+        $menu_id = wp_create_nav_menu( $menu_name );
+    } else {
+        $menu_id = $menu->term_id;
+    }
+
+    // Add menu items in desired order.
+    $order = array( 'home', 'about-us', 'our-process', 'projects', 'our-people', 'careers', 'bidding-opportunities', 'contact-us' );
+
+    foreach ( $order as $position => $slug ) {
+        if ( empty( $page_ids[ $slug ] ) ) {
+            continue;
+        }
+
+        wp_update_nav_menu_item(
+            $menu_id,
+            0,
+            array(
+                'menu-item-object-id' => $page_ids[ $slug ],
+                'menu-item-object'    => 'page',
+                'menu-item-type'      => 'post_type',
+                'menu-item-title'     => get_the_title( $page_ids[ $slug ] ),
+                'menu-item-url'       => get_permalink( $page_ids[ $slug ] ),
+                'menu-item-status'    => 'publish',
+                'menu-item-position'  => $position + 1,
+            )
+        );
+    }
+
+    // Assign menu to Kadence primary location (usually 'primary').
+    $locations = get_theme_mod( 'nav_menu_locations' );
+    if ( ! is_array( $locations ) ) {
+        $locations = array();
+    }
+    $locations['primary'] = $menu_id; // Kadence's primary location is 'primary'.
+    set_theme_mod( 'nav_menu_locations', $locations );
+}
+register_activation_hook( __FILE__, 'combes_core_activate' );
