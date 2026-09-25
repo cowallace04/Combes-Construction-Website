@@ -74,6 +74,20 @@ function combes_child_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'combes_child_enqueue_assets' );
 
 /**
+ * Register block pattern category for Combes.
+ */
+function combes_register_block_pattern_category() {
+    if ( function_exists( 'register_block_pattern_category' ) ) {
+        register_block_pattern_category(
+            'combes-home',
+            array( 'label' => __( 'Combes – Homepage', 'combes-kadence-child' ) )
+        );
+    }
+}
+add_action( 'init', 'combes_register_block_pattern_category' );
+
+
+/**
  * Shortcode: [combes_featured_projects]
  */
 function combes_featured_projects_shortcode( $atts ) {

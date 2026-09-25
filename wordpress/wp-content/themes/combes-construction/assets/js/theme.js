@@ -2,20 +2,34 @@
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /**
-   * Scroll-triggered animations
-   * Uses data-animate attributes, e.g. data-animate="fade-up"
+   * Scroll-triggered animations driven by CSS classes:
+   *  - animate-fade-up
+   *  - animate-fade-in
+   *  - animate-slide-left
+   *  - animate-slide-right
+   *  - animate-zoom-in
+   *
+   * Optional stagger using:
+   *  - animate-delay-1
+   *  - animate-delay-2
+   *  - animate-delay-3
    */
   function initScrollAnimations() {
+    const selector = [
+      ".animate-fade-up",
+      ".animate-fade-in",
+      ".animate-slide-left",
+      ".animate-slide-right",
+      ".animate-zoom-in"
+    ].join(",");
+
+    const elements = document.querySelectorAll(selector);
+    if (!elements.length) return;
+
     if (prefersReducedMotion) {
-      // Just show everything immediately.
-      document.querySelectorAll("[data-animate]").forEach((el) => {
-        el.classList.add("in-view");
-      });
+      elements.forEach((el) => el.classList.add("in-view"));
       return;
     }
-
-    const elements = document.querySelectorAll("[data-animate]");
-    if (!elements.length) return;
 
     const observer = new IntersectionObserver(
       (entries, obs) => {
@@ -34,7 +48,7 @@
 
   /**
    * Animated counters
-   * Usage: data-counter data-counter-target="250" data-counter-duration="1200"
+   * Usage: <span class="stat-counter animate-fade-up" data-counter data-counter-target="50">0</span>
    */
   function initCounters() {
     const counters = document.querySelectorAll("[data-counter]");
@@ -81,10 +95,10 @@
 
   /**
    * Parallax backgrounds
-   * Usage on a section: data-parallax data-parallax-speed="0.2"
+   * Usage: add class "has-parallax-bg" to a Kadence Row with a background image.
    */
   function initParallax() {
-    const elements = document.querySelectorAll("[data-parallax]");
+    const elements = document.querySelectorAll(".has-parallax-bg");
     if (!elements.length || prefersReducedMotion) return;
 
     let ticking = false;
@@ -93,7 +107,8 @@
       const scrollY = window.scrollY || window.pageYOffset;
 
       elements.forEach((el) => {
-        const speed = parseFloat(el.getAttribute("data-parallax-speed")) || 0.2;
+        const speedAttr = el.getAttribute("data-parallax-speed");
+        const speed = speedAttr ? parseFloat(speedAttr) : 0.2;
         const rect = el.getBoundingClientRect();
         const offset = (scrollY + rect.top) * speed * -1;
         el.style.backgroundPosition = `center ${offset}px`;
@@ -114,7 +129,7 @@
   }
 
   /**
-   * Smooth scroll for in-page anchors
+   * Smooth scroll for internal anchors
    */
   function initSmoothScroll() {
     const links = document.querySelectorAll('a[href^="#"]:not([href="#"])');
@@ -136,11 +151,10 @@
   }
 
   /**
-   * Enhanced hover effects on project cards
-   * (relies on existing .card--project structure)
+   * Slight hover zoom on project card images
    */
   function initProjectHover() {
-    const cards = document.querySelectorAll(".card--project .card__image");
+    const cards = document.querySelectorAll(".card--project img");
     if (!cards.length) return;
 
     cards.forEach((img) => {
