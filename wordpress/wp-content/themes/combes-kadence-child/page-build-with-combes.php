@@ -73,13 +73,15 @@ get_header();
                 </div>
 
                 <form id="build-with-combes-form"
-                      class="build-wizard__form"
-                      action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
-                      method="post"
-                      enctype="multipart/form-data">
+                        class="build-wizard__form"
+                        action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
+                        method="post"
+                        enctype="multipart/form-data">
+
 
                     <?php wp_nonce_field( 'combes_build_with_combes', 'combes_build_nonce' ); ?>
                     <input type="hidden" name="action" value="combes_build_with_combes_submit">
+
 
                     <!-- STEP 1: Contact Information -->
                     <section class="build-step is-active" data-step="1">

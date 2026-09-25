@@ -15,6 +15,7 @@ if ( have_posts() ) :
         $years_company = get_post_meta( $team_id, 'combes_team_years_with_company', true );
         $years_industry= get_post_meta( $team_id, 'combes_team_years_in_industry', true );
         $life_outside  = get_post_meta( $team_id, 'combes_team_life_outside_work', true );
+
         ?>
 
         <main id="primary" class="site-main site-main--team">
@@ -91,6 +92,22 @@ if ( have_posts() ) :
                         <?php endif; ?>
                     </div>
                 </section>
+
+                <aside class="team-body-sidebar">
+                <div class="combes-card">
+                    <h2>Life Outside Work</h2>
+                    <div class="team-life-body">
+                        <?php
+                        if ( $life_outside ) {
+                            echo wp_kses_post( wpautop( $life_outside ) );
+                        } else {
+                            echo '<p>Update this section in the “Life outside work” field on the team member edit screen.</p>';
+                        }
+                        ?>
+                    </div>
+                </div>
+            </aside>
+
 
             </article>
 

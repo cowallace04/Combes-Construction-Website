@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Email recipients for new inquiries.
- * By default, send to admin email.
+ * Default: WordPress admin email.
  */
 function combes_core_inquiry_notification_recipients() {
     $admin = get_option( 'admin_email' );
@@ -18,9 +18,14 @@ function combes_core_inquiry_notification_recipients() {
 
 function combes_core_handle_build_with_combes_submit() {
 
+    // Validate nonce; if invalid, redirect back with error instead of throwing a fatal page.
     if ( ! isset( $_POST['combes_build_nonce'] ) ||
          ! wp_verify_nonce( $_POST['combes_build_nonce'], 'combes_build_with_combes' ) ) {
-        wp_die( 'Invalid submission.', 403 );
+
+        $redirect = isset( $_POST['_wp_http_referer'] ) ? wp_unslash( $_POST['_wp_http_referer'] ) : home_url( '/build-with-combes/' );
+        $redirect = add_query_arg( 'build_error', 'invalid_nonce', $redirect );
+        wp_safe_redirect( $redirect );
+        exit;
     }
 
     // Basic sanitization
@@ -62,7 +67,6 @@ function combes_core_handle_build_with_combes_submit() {
                 'size'     => $files['size'][ $index ],
             );
 
-            // Temporarily override $_FILES for media_handle_upload
             $_FILES['bw_documents_single'] = $file_array;
 
             $attachment_id = media_handle_upload( 'bw_documents_single', 0 );
@@ -152,7 +156,10 @@ function combes_core_handle_build_with_combes_submit() {
     );
 
     if ( is_wp_error( $post_id ) ) {
-        wp_die( 'Unable to save inquiry.', 500 );
+        $redirect = isset( $_POST['_wp_http_referer'] ) ? wp_unslash( $_POST['_wp_http_referer'] ) : home_url( '/build-with-combes/' );
+        $redirect = add_query_arg( 'build_error', 'save_failed', $redirect );
+        wp_safe_redirect( $redirect );
+        exit;
     }
 
     // Save structured meta
@@ -183,10 +190,7 @@ function combes_core_handle_build_with_combes_submit() {
     }
 
     // Redirect back to Build With Combes with success flag
-    $redirect = wp_get_referer();
-    if ( ! $redirect ) {
-        $redirect = home_url( '/build-with-combes/' );
-    }
+    $redirect = isset( $_POST['_wp_http_referer'] ) ? wp_unslash( $_POST['_wp_http_referer'] ) : home_url( '/build-with-combes/' );
     $redirect = add_query_arg( 'build_submitted', '1', $redirect );
     wp_safe_redirect( $redirect );
     exit;

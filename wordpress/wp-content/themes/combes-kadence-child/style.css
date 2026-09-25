@@ -866,4 +866,60 @@ a:focus {
   background-color: transparent;
 }
 
+/* Global text contrast overrides */
+
+body,
+.site-main,
+.content-area,
+.entry-content,
+.wp-site-blocks {
+  background-color: var(--combes-bg-base) !important;
+  color: var(--combes-text-primary) !important;
+}
+
+h1, h2, h3, h4, h5, h6,
+.section-title,
+.section-lead,
+.wp-block-heading,
+.wp-block-paragraph,
+p,
+li {
+  color: var(--combes-text-primary) !important;
+}
+
+/* Secondary/muted text */
+.text-muted,
+.stat-label,
+.has-secondary-color,
+.combes-page-subtitle,
+.section-lead {
+  color: var(--combes-text-muted) !important;
+}
+
+/* Hero text specifically */
+.hero-slideshow__headline,
+.hero-slideshow__subline,
+.hero-slideshow__eyebrow {
+  color: var(--combes-text-primary) !important;
+  text-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+.hero-slideshow__subline {
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+/* Remove random light bands from Kadence page headers */
+.entry-hero,
+.entry-hero-inner,
+.page-header,
+.page-title-wrap,
+.page-title-inner {
+  background-color: var(--combes-bg-base) !important;
+  color: var(--combes-text-primary) !important;
+}
+
+/* Default block group background transparent so we don't get white stripes */
+.wp-block-group {
+  background-color: transparent;
+}
+
 
