@@ -833,3 +833,37 @@ a:focus {
   }
 }
 
+/* Ensure hero text has strong contrast */
+.hero-slideshow__headline,
+.hero-slideshow__subline,
+.hero-slideshow__eyebrow {
+  color: var(--combes-text-primary);
+}
+
+/* Slight text shadow to separate from images */
+.hero-slideshow__headline {
+  text-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+.hero-slideshow__subline {
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+/* Force Kadence page headers + content wrappers into dark theme */
+.entry-hero,
+.entry-hero-inner,
+.page-header,
+.page-title-wrap,
+.page-title,
+.page-title-inner,
+.entry-content-wrap,
+.content-bg {
+  background-color: var(--combes-bg-base) !important;
+  color: var(--combes-text-primary) !important;
+}
+
+/* Default block group background transparent so we don't get random white bands */
+.wp-block-group {
+  background-color: transparent;
+}
+
+
