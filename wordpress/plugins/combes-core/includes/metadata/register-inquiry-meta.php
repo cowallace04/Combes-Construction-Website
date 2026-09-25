@@ -1,34 +1,21 @@
 <?php
 /**
- * Register metadata for Project Inquiries (formerly Bidding Opportunities).
+ * Register structured metadata for Project Inquiries.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-function combes_core_bid_meta_auth( $allowed, $meta_key, $post_id, $user_id, $cap, $caps ) {
+function combes_core_inquiry_meta_auth( $allowed, $meta_key, $post_id, $user_id, $cap, $caps ) {
     return current_user_can( 'edit_post', $post_id );
 }
 
-function combes_core_register_bid_meta() {
+function combes_core_register_inquiry_meta() {
 
-    $post_type = 'combes_bid_opportunity'; // keeping CPT name; using it for inquiries.
+    $post_type = 'combes_project_inquiry';
 
-    // Company / organization name.
-    register_post_meta(
-        $post_type,
-        'combes_inquiry_company',
-        array(
-            'type'              => 'string',
-            'single'            => true,
-            'sanitize_callback' => 'sanitize_text_field',
-            'auth_callback'     => 'combes_core_bid_meta_auth',
-            'show_in_rest'      => true,
-        )
-    );
-
-    // Contact person.
+    // Contact info
     register_post_meta(
         $post_type,
         'combes_inquiry_contact_name',
@@ -36,12 +23,23 @@ function combes_core_register_bid_meta() {
             'type'              => 'string',
             'single'            => true,
             'sanitize_callback' => 'sanitize_text_field',
-            'auth_callback'     => 'combes_core_bid_meta_auth',
+            'auth_callback'     => 'combes_core_inquiry_meta_auth',
             'show_in_rest'      => true,
         )
     );
 
-    // Contact email.
+    register_post_meta(
+        $post_type,
+        'combes_inquiry_company',
+        array(
+            'type'              => 'string',
+            'single'            => true,
+            'sanitize_callback' => 'sanitize_text_field',
+            'auth_callback'     => 'combes_core_inquiry_meta_auth',
+            'show_in_rest'      => true,
+        )
+    );
+
     register_post_meta(
         $post_type,
         'combes_inquiry_email',
@@ -49,12 +47,11 @@ function combes_core_register_bid_meta() {
             'type'              => 'string',
             'single'            => true,
             'sanitize_callback' => 'sanitize_email',
-            'auth_callback'     => 'combes_core_bid_meta_auth',
+            'auth_callback'     => 'combes_core_inquiry_meta_auth',
             'show_in_rest'      => true,
         )
     );
 
-    // Contact phone.
     register_post_meta(
         $post_type,
         'combes_inquiry_phone',
@@ -62,12 +59,24 @@ function combes_core_register_bid_meta() {
             'type'              => 'string',
             'single'            => true,
             'sanitize_callback' => 'sanitize_text_field',
-            'auth_callback'     => 'combes_core_bid_meta_auth',
+            'auth_callback'     => 'combes_core_inquiry_meta_auth',
             'show_in_rest'      => true,
         )
     );
 
-    // Project type.
+    // Project details
+    register_post_meta(
+        $post_type,
+        'combes_inquiry_project_name',
+        array(
+            'type'              => 'string',
+            'single'            => true,
+            'sanitize_callback' => 'sanitize_text_field',
+            'auth_callback'     => 'combes_core_inquiry_meta_auth',
+            'show_in_rest'      => true,
+        )
+    );
+
     register_post_meta(
         $post_type,
         'combes_inquiry_project_type',
@@ -75,12 +84,11 @@ function combes_core_register_bid_meta() {
             'type'              => 'string',
             'single'            => true,
             'sanitize_callback' => 'sanitize_text_field',
-            'auth_callback'     => 'combes_core_bid_meta_auth',
+            'auth_callback'     => 'combes_core_inquiry_meta_auth',
             'show_in_rest'      => true,
         )
     );
 
-    // Project location.
     register_post_meta(
         $post_type,
         'combes_inquiry_location',
@@ -88,38 +96,11 @@ function combes_core_register_bid_meta() {
             'type'              => 'string',
             'single'            => true,
             'sanitize_callback' => 'sanitize_text_field',
-            'auth_callback'     => 'combes_core_bid_meta_auth',
+            'auth_callback'     => 'combes_core_inquiry_meta_auth',
             'show_in_rest'      => true,
         )
     );
 
-    // Estimated budget range.
-    register_post_meta(
-        $post_type,
-        'combes_inquiry_budget_range',
-        array(
-            'type'              => 'string',
-            'single'            => true,
-            'sanitize_callback' => 'sanitize_text_field',
-            'auth_callback'     => 'combes_core_bid_meta_auth',
-            'show_in_rest'      => true,
-        )
-    );
-
-    // Estimated start date.
-    register_post_meta(
-        $post_type,
-        'combes_inquiry_start_date',
-        array(
-            'type'              => 'string',
-            'single'            => true,
-            'sanitize_callback' => 'sanitize_text_field',
-            'auth_callback'     => 'combes_core_bid_meta_auth',
-            'show_in_rest'      => true,
-        )
-    );
-
-    // Desired services (GC, CM, Design-Build, etc.).
     register_post_meta(
         $post_type,
         'combes_inquiry_services',
@@ -127,12 +108,49 @@ function combes_core_register_bid_meta() {
             'type'              => 'string',
             'single'            => true,
             'sanitize_callback' => 'wp_kses_post',
-            'auth_callback'     => 'combes_core_bid_meta_auth',
+            'auth_callback'     => 'combes_core_inquiry_meta_auth',
             'show_in_rest'      => true,
         )
     );
 
-    // Project description.
+    // Budget & schedule
+    register_post_meta(
+        $post_type,
+        'combes_inquiry_budget_range',
+        array(
+            'type'              => 'string',
+            'single'            => true,
+            'sanitize_callback' => 'sanitize_text_field',
+            'auth_callback'     => 'combes_core_inquiry_meta_auth',
+            'show_in_rest'      => true,
+        )
+    );
+
+    register_post_meta(
+        $post_type,
+        'combes_inquiry_timeline',
+        array(
+            'type'              => 'string',
+            'single'            => true,
+            'sanitize_callback' => 'sanitize_text_field',
+            'auth_callback'     => 'combes_core_inquiry_meta_auth',
+            'show_in_rest'      => true,
+        )
+    );
+
+    register_post_meta(
+        $post_type,
+        'combes_inquiry_start_date',
+        array(
+            'type'              => 'string',
+            'single'            => true,
+            'sanitize_callback' => 'sanitize_text_field',
+            'auth_callback'     => 'combes_core_inquiry_meta_auth',
+            'show_in_rest'      => true,
+        )
+    );
+
+    // Description & documents
     register_post_meta(
         $post_type,
         'combes_inquiry_description',
@@ -140,12 +158,11 @@ function combes_core_register_bid_meta() {
             'type'              => 'string',
             'single'            => true,
             'sanitize_callback' => 'wp_kses_post',
-            'auth_callback'     => 'combes_core_bid_meta_auth',
+            'auth_callback'     => 'combes_core_inquiry_meta_auth',
             'show_in_rest'      => true,
         )
     );
 
-    // Supporting documents (store a simple text list or IDs).
     register_post_meta(
         $post_type,
         'combes_inquiry_documents',
@@ -153,9 +170,9 @@ function combes_core_register_bid_meta() {
             'type'              => 'string',
             'single'            => true,
             'sanitize_callback' => 'wp_kses_post',
-            'auth_callback'     => 'combes_core_bid_meta_auth',
+            'auth_callback'     => 'combes_core_inquiry_meta_auth',
             'show_in_rest'      => true,
         )
     );
 }
-add_action( 'init', 'combes_core_register_bid_meta' );
+add_action( 'init', 'combes_core_register_inquiry_meta' );

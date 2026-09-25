@@ -12,37 +12,34 @@
   <div class="wp-block-group section__inner home-stats__inner">
     <!-- wp:columns -->
     <div class="wp-block-columns">
-      <!-- Stat 1 -->
       <!-- wp:column -->
       <div class="wp-block-column">
         <!-- wp:paragraph {"className":"home-stat"} -->
         <p class="home-stat">
           <span class="stat-counter animate-fade-up" data-counter data-counter-target="50" data-counter-duration="1200">0</span><br>
-          <span class="stat-label">Projects Completed</span>
+          <span class="stat-label">Major Projects Completed</span>
         </p>
         <!-- /wp:paragraph -->
       </div>
       <!-- /wp:column -->
 
-      <!-- Stat 2 -->
       <!-- wp:column -->
       <div class="wp-block-column">
         <!-- wp:paragraph {"className":"home-stat"} -->
         <p class="home-stat">
           <span class="stat-counter animate-fade-up animate-delay-1" data-counter data-counter-target="20" data-counter-duration="1200">0</span><br>
-          <span class="stat-label">Years Experience</span>
+          <span class="stat-label">Years Building in Kansas City</span>
         </p>
         <!-- /wp:paragraph -->
       </div>
       <!-- /wp:column -->
 
-      <!-- Stat 3 -->
       <!-- wp:column -->
       <div class="wp-block-column">
         <!-- wp:paragraph {"className":"home-stat"} -->
         <p class="home-stat">
           <span class="stat-counter animate-fade-up animate-delay-2" data-counter data-counter-target="100" data-counter-duration="1500">0</span><br>
-          <span class="stat-label">$M+ Construction Value</span>
+          <span class="stat-label">$M+ in Completed Construction</span>
         </p>
         <!-- /wp:paragraph -->
       </div>

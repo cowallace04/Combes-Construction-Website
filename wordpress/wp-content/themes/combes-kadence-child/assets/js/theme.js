@@ -87,7 +87,7 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion ? "auto" : "smooth",
-          block: "start"
+          block: "start",
         });
       });
     });
@@ -111,10 +111,185 @@
     });
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
+  // NEW: scroll-triggered reveal for .animate-* classes
+  function initScrollAnimations() {
+    const animated = document.querySelectorAll(
+      ".animate-fade-up, .animate-fade-in, .animate-slide-left, .animate-slide-right, .animate-zoom-in"
+    );
+    if (!animated.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    animated.forEach((el) => observer.observe(el));
+  }
+
+  // NEW: hero slideshow rotation + Ken Burns trigger
+  function initHeroSlideshow() {
+    const slidesContainer = document.querySelector(".hero-slideshow__slides");
+    if (!slidesContainer) return;
+
+    const slides = Array.from(slidesContainer.querySelectorAll(".hero-slideshow__slide"));
+    if (slides.length <= 1) return;
+
+    const interval = prefersReducedMotion ? 12000 : 8000;
+    let current = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        const isActive = i === index;
+        slide.classList.toggle("is-active", isActive);
+        slide.classList.toggle("is-animate", isActive && !prefersReducedMotion);
+      });
+    }
+
+    // initial state
+    showSlide(current);
+
+    setInterval(() => {
+      current = (current + 1) % slides.length;
+      showSlide(current);
+    }, interval);
+  }
+
+    // NEW: Build With Combes multi-step wizard
+    // Build With Combes multi-step wizard
+  function initBuildWizard() {
+    const form = document.querySelector('#build-with-combes-form');
+    if (!form) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const steps = Array.from(form.querySelectorAll('.build-step'));
+    const progressFill = document.querySelector('.build-progress__bar-fill');
+    const totalSteps = steps.length;
+    let currentIndex = 0;
+
+    const groupToField = {
+      project_type: 'bw_project_type',
+      services: 'bw_services',
+      budget: 'bw_budget_range',
+      timeline: 'bw_timeline',
+    };
+
+    function updateProgress() {
+      if (!progressFill) return;
+      const pct = (currentIndex / (totalSteps - 1)) * 100;
+      progressFill.style.width = pct + '%';
+    }
+
+    function showStep(index) {
+      if (index < 0 || index >= totalSteps) return;
+      steps.forEach((step, i) => {
+        step.classList.toggle('is-active', i === index);
+      });
+      currentIndex = index;
+      updateProgress();
+
+      if (!prefersReducedMotion) {
+        const active = steps[currentIndex];
+        if (active) {
+          active.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      // Populate review on final step
+      if (currentIndex === totalSteps - 1) {
+        populateReview();
+      }
+    }
+
+    function populateReview() {
+      const reviewTargets = form.querySelectorAll('[data-review]');
+      reviewTargets.forEach((el) => {
+        const key = el.getAttribute('data-review');
+        if (!key) return;
+        const input = form.querySelector(`[name="${key}"]`);
+        if (!input) return;
+        let value = '';
+
+        if (input.tagName === 'TEXTAREA' || input.tagName === 'INPUT') {
+          value = input.value;
+        } else {
+          value = input.textContent || '';
+        }
+
+        el.textContent = value || '—';
+      });
+    }
+
+    // Card selection groups (project type, services, budget, timeline)
+    form.addEventListener('click', (e) => {
+      const card = e.target.closest('.build-card--select');
+      if (!card) return;
+      e.preventDefault();
+
+      const group = card.getAttribute('data-group');
+      const value = card.getAttribute('data-value');
+      if (!group || !value) return;
+
+      // deselect siblings
+      const siblings = form.querySelectorAll(`.build-card--select[data-group="${group}"]`);
+      siblings.forEach((el) => el.classList.remove('is-selected'));
+      card.classList.add('is-selected');
+
+      const fieldName = groupToField[group];
+      if (!fieldName) return;
+
+      const hidden = form.querySelector(`[name="${fieldName}"]`);
+      if (hidden) {
+        hidden.value = value;
+      }
+    });
+
+    // Next / Back buttons with basic validation
+    form.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-role]');
+      if (!btn) return;
+
+      e.preventDefault();
+      const role = btn.getAttribute('data-role');
+
+      if (role === 'next') {
+        const activeStep = steps[currentIndex];
+        if (activeStep) {
+          const required = activeStep.querySelectorAll('[required]');
+          for (const input of required) {
+            if (!input.value) {
+              input.focus();
+              return;
+            }
+          }
+        }
+        showStep(currentIndex + 1);
+      } else if (role === 'back') {
+        showStep(currentIndex - 1);
+      }
+    });
+
+    // Initialize
+    showStep(currentIndex);
+  }
+
+
+
+      document.addEventListener("DOMContentLoaded", () => {
     initCounters();
     initParallax();
     initSmoothScroll();
     initProjectHover();
+    initScrollAnimations();
+    initHeroSlideshow();
+    initBuildWizard();    // keep this
   });
+
+
 })();

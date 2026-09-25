@@ -14,7 +14,8 @@
 
     <!-- Shortcode block -->
     <!-- wp:shortcode -->
-    [combes_featured_projects]
+    [combes_featured_projects layout="masonry"]
+
     <!-- /wp:shortcode -->
 
   </div>

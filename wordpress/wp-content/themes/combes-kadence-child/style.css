@@ -5,4 +5,831 @@ Version: 0.1.0
 Text Domain: combes-kadence-child
 */
 
-/* You can add child-specific CSS here later if needed */
+/* === Design system: colors & typography === */
+
+:root {
+  /* Backgrounds */
+  --combes-bg-base: #050608;      /* deep charcoal */
+  --combes-bg-section: #0b0d12;   /* slightly lighter band */
+  --combes-surface-card: #111319;
+  --combes-surface-alt: #181b22;
+
+  /* Brand blues */
+  --combes-blue-primary: #1F6FDB;  /* Combes blue */
+  --combes-blue-secondary: #225cc0;
+  --combes-blue-accent: #4A86E8;
+  --combes-blue-soft: #9bb9e6;
+
+  /* Text */
+  --combes-text-primary: #f5f5f7;
+  --combes-text-muted: #a0a4ad;
+
+  /* Borders */
+  --combes-border-subtle: #2b3038;
+}
+
+
+/* Base */
+body {
+  background-color: var(--combes-bg-base);
+  color: var(--combes-text-primary);
+}
+
+/* Kadence content wrappers */
+.site-main,
+.content-area,
+.entry-content,
+.wp-site-blocks {
+  background-color: var(--combes-bg-base);
+  color: var(--combes-text-primary);
+}
+
+/* Text & headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--combes-text-primary);
+}
+p,
+li {
+  color: var(--combes-text-primary);
+}
+
+/* Links */
+a {
+  color: var(--combes-blue-primary);
+}
+a:hover,
+a:focus {
+  color: var(--combes-blue-secondary);
+}
+
+/* Muted text helpers */
+.stat-label,
+.text-muted,
+.small,
+.has-secondary-color {
+  color: var(--combes-text-muted);
+}
+
+/* === Header & navigation === */
+
+.site-header,
+.header-main,
+.header-main-inner {
+  background-color: var(--combes-bg-section) !important;
+  color: var(--combes-text-primary);
+  border-bottom: 1px solid var(--combes-border-subtle);
+}
+
+.main-navigation .menu > li > a {
+  color: var(--combes-text-muted);
+}
+.main-navigation .menu > li > a:hover,
+.main-navigation .menu > li.current-menu-item > a,
+.main-navigation .menu > li.current-menu-ancestor > a {
+  color: var(--combes-text-primary);
+}
+
+/* Header buttons (e.g., Start a Project) */
+.header-button .wp-block-button__link,
+.header-button .button {
+  background-color: var(--combes-blue-primary);
+  color: #ffffff;
+  border-radius: 999px;
+}
+.header-button .wp-block-button__link:hover,
+.header-button .button:hover {
+  background-color: var(--combes-blue-secondary);
+}
+
+/* === Footer === */
+
+.site-footer,
+.footer-main,
+.footer-top,
+.footer-bottom {
+  background-color: var(--combes-bg-section);
+  color: var(--combes-text-muted);
+  border-top: 1px solid var(--combes-border-subtle);
+}
+
+.site-footer a {
+  color: var(--combes-blue-soft);
+}
+.site-footer a:hover {
+  color: var(--combes-blue-secondary);
+}
+
+/* === Sections & layout === */
+
+.section {
+  padding: 4rem 1.5rem;
+}
+.section__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-title {
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+.section-lead {
+  max-width: 40rem;
+  color: var(--combes-text-muted);
+}
+
+.section,
+.home-projects,
+.home-stats,
+.page-about,
+.page-people,
+.page-careers,
+.page-process,
+.page-contact {
+  background-color: var(--combes-bg-base);
+}
+
+/* Alternating navy bands if you add section--navy class */
+.section--navy,
+.home-hero,
+.home-contact-cta {
+  background-color: var(--combes-bg-section);
+}
+
+/* === Buttons === */
+
+.wp-block-button__link,
+.button,
+.kt-button {
+  background-color: var(--combes-blue-primary);
+  color: #ffffff;
+  border-radius: 999px;
+  border: none;
+}
+.wp-block-button__link:hover,
+.button:hover,
+.kt-button:hover {
+  background-color: var(--combes-blue-secondary);
+}
+
+.button--ghost,
+.wp-block-button__link.button--ghost {
+  background-color: transparent;
+  border: 1px solid var(--combes-blue-soft);
+  color: var(--combes-blue-soft);
+}
+.button--ghost:hover,
+.wp-block-button__link.button--ghost:hover {
+  background-color: var(--combes-blue-soft);
+  color: #ffffff;
+}
+
+/* === Hero === */
+
+.home-hero {
+  background: radial-gradient(circle at top left, #0b1120 0, #050814 55%, #050814 100%);
+}
+.home-hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: center;
+}
+.home-hero__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  color: var(--combes-blue-soft);
+  margin-bottom: 0.5rem;
+}
+.home-hero__title {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin: 0 0 0.75rem;
+}
+.home-hero__lead {
+  color: var(--combes-text-muted);
+  margin-bottom: 1.5rem;
+}
+.home-hero__actions .wp-block-button {
+  margin-right: 0.75rem;
+}
+.home-hero__media {
+  border-radius: 1rem;
+  border: 1px solid var(--combes-border-subtle);
+  overflow: hidden;
+}
+
+/* Parallax-target rows can use has-parallax-bg class; JS adjusts background-position. */
+.has-parallax-bg {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* === Featured projects grid & masonry === */
+
+.home-projects__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.home-projects__view-all {
+  font-size: 0.9rem;
+  color: var(--combes-blue-soft);
+  text-decoration: none;
+}
+.home-projects__view-all:hover {
+  color: var(--combes-blue-secondary);
+}
+
+/* Standard grid */
+.home-projects__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Masonry-style layout (Pinterest-like) */
+.projects-masonry {
+  column-count: 3;
+  column-gap: 1.5rem;
+}
+.projects-masonry .card--project {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 960px) {
+  .projects-masonry {
+    column-count: 2;
+  }
+}
+@media (max-width: 640px) {
+  .projects-masonry {
+    column-count: 1;
+  }
+}
+
+/* === Hero slideshow (homepage) === */
+
+.hero-slideshow {
+  position: relative;
+  min-height: 100vh;
+  padding-top: 0;
+  padding-bottom: 0;
+  background-color: var(--combes-bg-base);
+  overflow: hidden;
+}
+
+.hero-slideshow__slides {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* each slide is a Kadence/WP cover block with this class */
+.hero-slideshow__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 900ms ease-in-out;
+}
+
+.hero-slideshow__slide.is-active {
+  opacity: 1;
+}
+
+/* Ken Burns-style zoom; JS adds .is-animate */
+.hero-slideshow__slide.is-animate .wp-block-cover__image-background,
+.hero-slideshow__slide.is-animate img {
+  animation: hero-kenburns 18s ease-in-out forwards;
+}
+
+@keyframes hero-kenburns {
+  0%   { transform: scale(1.05) translate3d(0, 0, 0); }
+  100% { transform: scale(1.12) translate3d(0, -12px, 0); }
+}
+
+.hero-slideshow__content {
+  position: relative;
+  z-index: 2;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.hero-slideshow__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  color: var(--combes-blue-soft);
+  margin-bottom: 0.75rem;
+}
+
+.hero-slideshow__headline {
+  font-size: 2.75rem;
+  line-height: 1.15;
+  margin: 0 0 1rem;
+}
+
+.hero-slideshow__subline {
+  max-width: 40rem;
+  color: var(--combes-text-muted);
+  margin-bottom: 2rem;
+}
+
+.hero-slideshow__actions .wp-block-button {
+  margin-right: 0.75rem;
+}
+
+@media (max-width: 960px) {
+  .hero-slideshow__headline {
+    font-size: 2.2rem;
+  }
+  .hero-slideshow__content {
+    padding-top: 5rem;
+    padding-bottom: 4rem;
+  }
+}
+
+/* overlay category label in project cards */
+.card__overlay-category {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--combes-blue-soft);
+  margin-bottom: 0.35rem;
+}
+
+
+/* === Project cards & hover overlay === */
+
+.card.card--project {
+  background-color: var(--combes-surface-card);
+  border: 1px solid var(--combes-border-subtle);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.card--project .card__link {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.card--project .card__media {
+  position: relative;
+  overflow: hidden;
+}
+.card--project .card__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 220ms ease-out;
+}
+
+/* Dark overlay + title reveal */
+.card--project .card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5, 8, 20, 0.85), rgba(5, 8, 20, 0.1));
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.25rem;
+  transition: opacity 220ms ease-out;
+}
+.card__overlay-title {
+  font-size: 1.1rem;
+  margin: 0 0 0.25rem;
+}
+.card__overlay-cta {
+  font-size: 0.85rem;
+  color: var(--combes-blue-soft);
+}
+
+/* Card body */
+.card--project .card__body {
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+.card--project .card__title {
+  font-size: 1.1rem;
+  margin: 0 0 0.25rem;
+}
+.card--project .card__location {
+  color: var(--combes-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+.card--project .card__meta {
+  color: var(--combes-text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+.card--project .card__excerpt {
+  font-size: 0.9rem;
+  color: var(--combes-text-muted);
+}
+
+/* Hover effects */
+.card.card--project:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.45);
+  border-color: var(--combes-blue-soft);
+}
+.card.card--project:hover .card__media img {
+  transform: scale(1.08);
+}
+.card.card--project:hover .card__overlay {
+  opacity: 1;
+}
+
+/* === Stats / counters === */
+
+.home-stats__inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.75rem;
+}
+.stat-counter {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--combes-text-primary);
+}
+
+/* === Process timeline === */
+
+.process-timeline {
+  list-style: none;
+  padding-left: 0;
+}
+.process-timeline li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--combes-text-muted);
+}
+.process-timeline li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0.2rem;
+  color: var(--combes-blue-soft);
+}
+
+/* === Scroll animations (class-based) === */
+
+.animate-fade-up,
+.animate-fade-in,
+.animate-slide-left,
+.animate-slide-right,
+.animate-zoom-in {
+  opacity: 0;
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
+}
+
+.animate-fade-up {
+  transform: translateY(24px);
+}
+.animate-fade-in {
+  transform: none;
+}
+.animate-slide-left {
+  transform: translateX(32px);
+}
+.animate-slide-right {
+  transform: translateX(-32px);
+}
+.animate-zoom-in {
+  transform: scale(0.96);
+}
+
+.animate-fade-up.in-view,
+.animate-fade-in.in-view,
+.animate-slide-left.in-view,
+.animate-slide-right.in-view,
+.animate-zoom-in.in-view {
+  opacity: 1;
+  transform: translateX(0) translateY(0) scale(1);
+}
+
+/* Stagger helpers */
+.animate-delay-1 {
+  transition-delay: 80ms;
+}
+.animate-delay-2 {
+  transition-delay: 160ms;
+}
+.animate-delay-3 {
+  transition-delay: 240ms;
+}
+
+/* === Responsive === */
+
+@media (max-width: 960px) {
+  .home-hero__inner {
+    grid-template-columns: 1fr;
+  }
+  .home-hero__media {
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-projects__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Our People grid */
+.combes-people-grid {
+  display: grid;
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .combes-people-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .combes-people-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.combes-people-card__photo img {
+  width: 100%;
+  border-radius: 0.75rem;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+.combes-people-card__meta {
+  font-size: 0.85rem;
+  color: var(--combes-text-muted);
+  margin-bottom: 0.5rem;
+}
+.combes-people-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* Careers layout */
+.combes-careers__columns {
+  display: grid;
+  gap: 2.5rem;
+}
+@media (min-width: 900px) {
+  .combes-careers__columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.combes-job-card__location,
+.combes-job-card__dates {
+  font-size: 0.9rem;
+  color: var(--combes-text-muted);
+}
+.combes-job-card__meta-line {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--combes-text-muted);
+  margin-bottom: 0.35rem;
+}
+.combes-job-card__dept + .combes-job-card__type::before {
+  content: " · ";
+}
+/* Build With Combes wizard */
+
+.build-wizard {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.build-progress {
+  margin-bottom: 2rem;
+}
+
+.build-progress__labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--combes-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.build-progress__bar {
+  position: relative;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.build-progress__bar-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--combes-blue-primary), var(--combes-blue-accent));
+  transition: width 260ms ease-out;
+}
+
+/* Steps */
+
+.build-wizard__form {
+  position: relative;
+}
+
+.build-step {
+  display: none;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 260ms ease-out, transform 260ms ease-out;
+  min-height: 60vh;
+}
+
+.build-step.is-active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.build-step__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.build-step__header h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+}
+
+.build-step__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.8rem;
+  color: var(--combes-blue-soft);
+  margin-bottom: 0.25rem;
+}
+
+.build-step__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.build-step__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+/* Cards & fields */
+
+.build-card-grid {
+  display: grid;
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .build-card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.build-card-grid--timeline {
+  margin-top: 1.25rem;
+}
+
+.build-card {
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--combes-border-subtle);
+  background: var(--combes-surface-card);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+.build-card h3 {
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+}
+.build-card p {
+  font-size: 0.85rem;
+  color: var(--combes-text-muted);
+}
+
+.build-card--select.is-selected {
+  border-color: var(--combes-blue-primary);
+  background: rgba(31, 111, 219, 0.16);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+.build-field-row {
+  display: grid;
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .build-field-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.build-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.build-field label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--combes-text-muted);
+}
+
+.build-field input,
+.build-field textarea {
+  background: var(--combes-surface-card);
+  border-radius: 0.5rem;
+  border: 1px solid var(--combes-border-subtle);
+  padding: 0.6rem 0.75rem;
+  color: var(--combes-text-primary);
+  font-size: 0.95rem;
+}
+
+.build-field input:focus,
+.build-field textarea:focus {
+  outline: none;
+  border-color: var(--combes-blue-primary);
+}
+
+.build-field__hint {
+  font-size: 0.8rem;
+  color: var(--combes-text-muted);
+}
+
+/* Review */
+
+.build-review {
+  display: grid;
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .build-review {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.build-review__column h3 {
+  margin-bottom: 0.5rem;
+}
+
+.build-review__column ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.build-review__column li {
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+
+.build-review__column li strong {
+  color: var(--combes-text-muted);
+}
+
+/* Trust copy */
+
+.build-trust-copy {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: var(--combes-text-muted);
+}
+
+/* Responsive tweaks */
+
+@media (max-width: 640px) {
+  .build-step {
+    min-height: auto;
+  }
+  .build-step__footer {
+    justify-content: space-between;
+  }
+}
+

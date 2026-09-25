@@ -38,7 +38,7 @@ function combes_child_enqueue_assets() {
         '2.3.4'
     );
 
-    // Theme JS (counters, parallax, hover).
+    // Theme JS (counters, parallax, hover, scroll animations).
     wp_enqueue_script(
         'combes-theme',
         get_stylesheet_directory_uri() . '/assets/js/theme.js',
@@ -56,7 +56,7 @@ function combes_child_enqueue_assets() {
         true
     );
 
-    // Initialize AOS after it loads.
+    // Initialize AOS globally (even though we also use our own class-based animations).
     $init = '
     document.addEventListener("DOMContentLoaded", function () {
         if (window.AOS) {
@@ -74,7 +74,7 @@ function combes_child_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'combes_child_enqueue_assets' );
 
 /**
- * Register block pattern category for Combes.
+ * Block pattern categories.
  */
 function combes_register_block_pattern_category() {
     if ( function_exists( 'register_block_pattern_category' ) ) {
@@ -82,19 +82,23 @@ function combes_register_block_pattern_category() {
             'combes-home',
             array( 'label' => __( 'Combes – Homepage', 'combes-kadence-child' ) )
         );
+        register_block_pattern_category(
+            'combes-pages',
+            array( 'label' => __( 'Combes – Pages', 'combes-kadence-child' ) )
+        );
     }
 }
 add_action( 'init', 'combes_register_block_pattern_category' );
 
-
 /**
- * Shortcode: [combes_featured_projects]
+ * Shortcode: [combes_featured_projects layout="grid|masonry"]
  */
 function combes_featured_projects_shortcode( $atts ) {
 
     $atts = shortcode_atts(
         array(
-            'count' => 6,
+            'count'  => 6,
+            'layout' => 'grid', // or 'masonry'
         ),
         $atts,
         'combes_featured_projects'
@@ -105,7 +109,9 @@ function combes_featured_projects_shortcode( $atts ) {
         $count = 6;
     }
 
-    // Try featured projects first.
+    $layout = ( 'masonry' === $atts['layout'] ) ? 'masonry' : 'grid';
+
+    // First try: featured projects only.
     $query_args = array(
         'post_type'      => 'combes_project',
         'posts_per_page' => $count,
@@ -137,21 +143,21 @@ function combes_featured_projects_shortcode( $atts ) {
         );
     }
 
+    $container_class = ( 'masonry' === $layout ) ? 'projects-masonry' : 'home-projects__grid';
+
     ob_start();
     ?>
-    <section class="section home-projects" data-aos="fade-up">
+    <section class="section home-projects animate-fade-up">
         <div class="section__inner">
-
             <div class="home-projects__header">
                 <h2 class="section-title">Featured Projects</h2>
-                <a class="home-projects__view-all"
-                   href="<?php echo esc_url( home_url( '/projects/' ) ); ?>">
+                <a class="home-projects__view-all" href="<?php echo esc_url( home_url( '/projects/' ) ); ?>">
                     View All Projects &rarr;
                 </a>
             </div>
 
             <?php if ( $query->have_posts() ) : ?>
-                <div class="home-projects__grid">
+                <div class="<?php echo esc_attr( $container_class ); ?>">
                     <?php
                     while ( $query->have_posts() ) :
                         $query->the_post();
@@ -159,14 +165,25 @@ function combes_featured_projects_shortcode( $atts ) {
                         $project_id = get_the_ID();
                         $location   = get_post_meta( $project_id, 'combes_project_location', true );
                         $completion = get_post_meta( $project_id, 'combes_project_completion_date', true );
+                        $type_terms = get_the_terms( $project_id, 'combes_project_type' );
+                        $type_label = ( $type_terms && ! is_wp_error( $type_terms ) ) ? $type_terms[0]->name : '';
+
                         ?>
-                        <article <?php post_class( 'card card--project' ); ?> data-aos="fade-up">
+                        <article <?php post_class( 'card card--project animate-fade-up' ); ?>>
                             <a href="<?php the_permalink(); ?>" class="card__link">
-                                <?php if ( has_post_thumbnail() ) : ?>
-                                    <div class="card__media">
+                                <div class="card__media">
+                                    <?php if ( has_post_thumbnail() ) : ?>
                                         <?php the_post_thumbnail( 'large' ); ?>
-                                    </div>
-                                <?php endif; ?>
+                                    <?php endif; ?>
+                                    <div class="card__overlay">
+                                    <?php if ( $type_label ) : ?>
+                                        <span class="card__overlay-category"><?php echo esc_html( $type_label ); ?></span>
+                                    <?php endif; ?>
+                                    <h3 class="card__overlay-title"><?php the_title(); ?></h3>
+                                    <span class="card__overlay-cta">View Project &rarr;</span>
+                                </div>
+
+                                </div>
                                 <div class="card__body">
                                     <h3 class="card__title"><?php the_title(); ?></h3>
                                     <?php if ( $location ) : ?>

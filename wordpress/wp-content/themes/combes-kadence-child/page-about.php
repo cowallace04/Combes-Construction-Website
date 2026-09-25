@@ -1,13 +1,13 @@
 <?php
 /**
- * Template Name: Our Process
- * Description: Process page; layout and timeline are driven by Gutenberg/Kadence blocks.
+ * Template Name: About Us
+ * Description: About page; layout driven by Gutenberg/Kadence blocks.
  */
 
 get_header();
 ?>
 
-<main id="primary" class="site-main page-process">
+<main id="primary" class="site-main page-about">
 
     <section class="section section--dark" data-aos="fade-up">
         <div class="section__inner">
@@ -23,8 +23,8 @@ get_header();
                         <?php endif; ?>
                     </header>
 
-                    <div class="page-process__body">
-                        <?php the_content(); // pattern: combes/page-process (timeline, etc.) ?>
+                    <div class="page-about__body">
+                        <?php the_content(); // pattern: combes/page-about ?>
                     </div>
                     <?php
                 endwhile;
