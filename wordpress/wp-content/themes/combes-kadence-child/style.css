@@ -964,3 +964,66 @@ li {
 .wp-block-group {
   background-color: transparent;
 }
+
+/* Hide Kadence entry hero band on pages */
+.entry-hero,
+.entry-hero-inner,
+.page-header,
+.page-title-wrap,
+.page-title-inner {
+  display: none !important;
+}
+
+.page-about__children {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.page-process-content {
+  background-color: var(--combes-bg-base);
+}
+
+/* Build With Combes – documents list */
+
+.build-documents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.build-documents-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px dashed var(--combes-border-subtle);
+  background-color: rgba(31, 41, 51, 0.5);
+}
+
+.build-documents-item.has-file {
+  border-style: solid;
+  border-color: var(--combes-blue-primary);
+  background-color: rgba(0, 84, 166, 0.18);
+}
+
+.build-documents-input {
+  /* keep the input accessible but visually minimized */
+  max-width: 220px;
+  font-size: 0.85rem;
+}
+
+.build-documents-name {
+  font-size: 0.85rem;
+  color: var(--combes-text-muted);
+}
+
+.contact-map-embed iframe {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 0.75rem;
+}
+

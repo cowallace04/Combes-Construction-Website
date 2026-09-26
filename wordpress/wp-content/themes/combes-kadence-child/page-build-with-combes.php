@@ -352,14 +352,20 @@ get_header();
 
                             <div class="build-step__content">
                                 <div class="build-field">
-                                    <label for="bw_documents">Project documents (optional)</label>
-                                    <input type="file" id="bw_documents" name="bw_documents[]" multiple
-                                           accept=".pdf,.dwg,.dxf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.tif,.tiff">
+                                    <label>Project documents (optional)</label>
+                                    <div id="bw_documents_list" class="build-documents-list">
+                                        <!-- file items will be added here by JS -->
+                                    </div>
+                                    <button type="button" class="button button--ghost" data-role="add-file">
+                                        Add file
+                                    </button>
                                     <p class="build-field__hint">
                                         You can attach plans, renderings, specifications, RFPs, photos, and other supporting documents.
+                                        Add each file individually.
                                     </p>
                                 </div>
                             </div>
+
 
                             <div class="build-step__footer">
                                 <button type="button" class="button button--ghost" data-role="back">Back</button>

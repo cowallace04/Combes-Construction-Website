@@ -24,7 +24,7 @@ get_header();
                     </header>
 
                     <div class="page-process__body">
-                        <?php the_content(); // pattern: combes/page-process (timeline, etc.) ?>
+                        <?php the_content(); // pattern: combes/page-process (timeline list) ?>
                     </div>
                     <?php
                 endwhile;

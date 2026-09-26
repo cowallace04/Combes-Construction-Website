@@ -615,7 +615,7 @@ function combes_core_render_inquiry_meta_box( $post ) {
         ?></textarea>
     </p>
 
-    <p>
+        <p>
         <label for="combes_inquiry_documents"><strong>Documents</strong></label><br>
         <textarea id="combes_inquiry_documents" name="combes_inquiry_documents" rows="3" class="widefat"
                   placeholder="List of attached files or references"><?php
@@ -623,7 +623,22 @@ function combes_core_render_inquiry_meta_box( $post ) {
         ?></textarea>
     </p>
 
-    <?php
+    <?php if ( $documents ) : ?>
+        <p><strong>Attached files:</strong></p>
+        <ul>
+            <?php
+            $lines = preg_split( '/\r\n|\r|\n/', $documents );
+            foreach ( $lines as $line ) {
+                $url = trim( $line );
+                if ( ! $url ) {
+                    continue;
+                }
+                echo '<li><a href="' . esc_url( $url ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( basename( $url ) ) . '</a></li>';
+            }
+            ?>
+        </ul>
+    <?php endif; ?>
+
 }
 
 /**
@@ -668,3 +683,8 @@ function combes_core_save_inquiry_meta_box( $post_id ) {
     }
 }
 add_action( 'save_post_combes_inquiry', 'combes_core_save_inquiry_meta_box' );
+
+add_action( 'admin_init', function() {
+    remove_meta_box( 'postcustom', 'combes_inquiry', 'normal' );
+} );
+

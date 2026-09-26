@@ -6,8 +6,8 @@
  * Description: Visual multi-step construction process layout.
  */
 ?>
-<!-- wp:group {"align":"full","className":"section page-process animate-fade-up"} -->
-<div class="wp-block-group alignfull section page-process animate-fade-up">
+<!-- wp:group {"className":"page-process-content animate-fade-up"} -->
+<div class="wp-block-group page-process-content animate-fade-up">
   <!-- wp:group {"className":"section__inner"} -->
   <div class="wp-block-group section__inner">
     <!-- wp:heading {"level":2} -->
@@ -41,8 +41,6 @@
       </li>
     </ul>
     <!-- /wp:list -->
-
-    <!-- You can add expandable sections or additional blocks below as you refine content. -->
   </div>
   <!-- /wp:group -->
 </div>

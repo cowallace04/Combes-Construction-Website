@@ -210,6 +210,42 @@
       timeline: 'bw_timeline',
     };
 
+        function addFileInput() {
+      const list = form.querySelector('#bw_documents_list');
+      if (!list) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'build-documents-item';
+
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.name = 'bw_documents[]';
+      input.accept = '.pdf,.dwg,.dxf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.tif,.tiff';
+      input.className = 'build-documents-input';
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'build-documents-name';
+      nameSpan.textContent = 'No file selected';
+
+      input.addEventListener('change', () => {
+        if (input.files && input.files.length) {
+          nameSpan.textContent = input.files[0].name;
+          wrapper.classList.add('has-file');
+        } else {
+          nameSpan.textContent = 'No file selected';
+          wrapper.classList.remove('has-file');
+        }
+      });
+
+      wrapper.appendChild(input);
+      wrapper.appendChild(nameSpan);
+      list.appendChild(wrapper);
+
+      // Immediately open the file chooser for convenience
+      input.click();
+    }
+
+
     function updateProgress() {
       if (!progressFill) return;
       const pct = (currentIndex / (totalSteps - 1)) * 100;
@@ -257,28 +293,37 @@
     }
 
     // Card selection groups (project type, services, budget, timeline)
-    form.addEventListener('click', (e) => {
-      const card = e.target.closest('.build-card--select');
-      if (!card) return;
+        form.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-role]');
+      if (!btn) return;
+
+      const role = btn.getAttribute('data-role');
+
+      if (role === 'add-file') {
+        e.preventDefault();
+        addFileInput();
+        return;
+      }
+
       e.preventDefault();
 
-      const group = card.getAttribute('data-group');
-      const value = card.getAttribute('data-value');
-      if (!group || !value) return;
-
-      // deselect siblings
-      const siblings = form.querySelectorAll(`.build-card--select[data-group="${group}"]`);
-      siblings.forEach((el) => el.classList.remove('is-selected'));
-      card.classList.add('is-selected');
-
-      const fieldName = groupToField[group];
-      if (!fieldName) return;
-
-      const hidden = form.querySelector(`[name="${fieldName}"]`);
-      if (hidden) {
-        hidden.value = value;
+      if (role === 'next') {
+        const activeStep = steps[currentIndex];
+        if (activeStep) {
+          const required = activeStep.querySelectorAll('[required]');
+          for (const input of required) {
+            if (!input.value) {
+              input.focus();
+              return;
+            }
+          }
+        }
+        showStep(currentIndex + 1);
+      } else if (role === 'back') {
+        showStep(currentIndex - 1);
       }
     });
+
 
     // Next / Back buttons with basic validation
     form.addEventListener('click', (e) => {
