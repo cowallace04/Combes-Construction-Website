@@ -112,9 +112,9 @@
   }
 
   // NEW: scroll-triggered reveal for .animate-* classes
-  function initScrollAnimations() {
+    function initScrollAnimations() {
     const animated = document.querySelectorAll(
-      ".animate-fade-up, .animate-fade-in, .animate-slide-left, .animate-slide-right, .animate-zoom-in"
+      ".animate-fade-up, .animate-fade-in, .animate-slide-left, .animate-slide-right, .animate-zoom-in, .reveal-image, .reveal-mask"
     );
     if (!animated.length) return;
 
@@ -122,7 +122,7 @@
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("in-view");
+            entry.target.classList.add("in-view", "is-visible");
             observer.unobserve(entry.target);
           }
         });
@@ -132,6 +132,36 @@
 
     animated.forEach((el) => observer.observe(el));
   }
+  function initStaggerText() {
+    const nodes = document.querySelectorAll(".stagger-text");
+    if (!nodes.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          observer.unobserve(el);
+
+          const text = el.textContent;
+          el.textContent = "";
+          const words = text.split(" ");
+          words.forEach((word, index) => {
+            const span = document.createElement("span");
+            span.textContent = word + (index < words.length - 1 ? " " : "");
+            el.appendChild(span);
+            setTimeout(() => {
+              span.classList.add("is-visible");
+            }, index * 60);
+          });
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    nodes.forEach((el) => observer.observe(el));
+  }
+
 
   // NEW: hero slideshow rotation + Ken Burns trigger
   function initHeroSlideshow() {
@@ -281,15 +311,17 @@
 
 
 
-      document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", () => {
     initCounters();
     initParallax();
     initSmoothScroll();
     initProjectHover();
     initScrollAnimations();
     initHeroSlideshow();
-    initBuildWizard();    // keep this
+    initBuildWizard();
+    initStaggerText();   // NEW
   });
+
 
 
 })();

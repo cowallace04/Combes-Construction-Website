@@ -8,25 +8,60 @@ Text Domain: combes-kadence-child
 /* === Design system: colors & typography === */
 
 :root {
-  /* Backgrounds */
-  --combes-bg-base: #050608;      /* deep charcoal */
-  --combes-bg-section: #0b0d12;   /* slightly lighter band */
-  --combes-surface-card: #111319;
-  --combes-surface-alt: #181b22;
 
-  /* Brand blues */
-  --combes-blue-primary: #1F6FDB;  /* Combes blue */
-  --combes-blue-secondary: #225cc0;
-  --combes-blue-accent: #4A86E8;
-  --combes-blue-soft: #9bb9e6;
+  --combes-bg-base: #060A12;
+  --combes-bg-section: #060A12;
+  --combes-surface-card: #1F2933;
+  --combes-surface-alt: #1F2933;
 
-  /* Text */
-  --combes-text-primary: #f5f5f7;
-  --combes-text-muted: #a0a4ad;
+  --combes-blue-primary: #0054A6;
+  --combes-blue-secondary: #00386F;
 
-  /* Borders */
-  --combes-border-subtle: #2b3038;
+  --combes-gold: #F6B800;
+  --combes-concrete: #E5E7EB;
+
+  --combes-text-primary: #F9FAFB;
+  --combes-text-muted: #9CA3AF;
+
+  --combes-border-subtle: #9CA3AF;
 }
+
+/* Typography system */
+
+body {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Manrope", "Inter", system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Modular scale-ish headings */
+h1,
+.hero-slideshow__headline {
+  font-size: clamp(2.4rem, 3vw, 3.1rem);
+  line-height: 1.1;
+}
+
+h2,
+.section-title {
+  font-size: clamp(1.8rem, 2.4vw, 2.2rem);
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: clamp(1.3rem, 1.8vw, 1.5rem);
+}
+
+.section-lead {
+  font-size: 1rem;
+  max-width: 40rem;
+}
+
 
 
 /* Base */
@@ -484,6 +519,62 @@ a:focus {
   color: var(--combes-blue-soft);
 }
 
+/* Image / mask reveal animations */
+
+.reveal-image {
+  overflow: hidden;
+  position: relative;
+}
+
+.reveal-image img {
+  transform: translateY(20px);
+  opacity: 0;
+  transition:
+    transform 700ms ease-out,
+    opacity 700ms ease-out;
+}
+
+.reveal-image.is-visible img {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Simple mask reveal using scaleX */
+.reveal-mask {
+  position: relative;
+  overflow: hidden;
+}
+
+.reveal-mask::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--combes-blue-secondary);
+  transform-origin: left center;
+  transform: scaleX(1);
+  transition: transform 700ms ease-out;
+}
+
+.reveal-mask.is-visible::before {
+  transform: scaleX(0);
+}
+
+/* Text stagger: wrap words or lines in spans */
+.stagger-text span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 400ms ease-out,
+    transform 400ms ease-out;
+}
+
+.stagger-text span.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
 /* === Scroll animations (class-based) === */
 
 .animate-fade-up,
@@ -922,4 +1013,109 @@ li {
   background-color: transparent;
 }
 
+/* Global dark theme text contrast */
+
+body,
+.site-main,
+.content-area,
+.entry-content,
+.wp-site-blocks {
+  background-color: var(--combes-bg-base) !important;
+  color: var(--combes-text-primary) !important;
+}
+
+h1, h2, h3, h4, h5, h6,
+.section-title,
+.wp-block-heading,
+.wp-block-paragraph,
+p,
+li {
+  color: var(--combes-text-primary) !important;
+}
+
+.section-lead,
+.text-muted,
+.stat-label,
+.has-secondary-color {
+  color: var(--combes-text-muted) !important;
+}
+
+/* Hero text */
+.hero-slideshow__headline,
+.hero-slideshow__subline,
+.hero-slideshow__eyebrow {
+  color: var(--combes-text-primary) !important;
+  text-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+.hero-slideshow__subline {
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+/* Kill light Kadence header bands */
+.entry-hero,
+.entry-hero-inner,
+.page-header,
+.page-title-wrap,
+.page-title-inner {
+  background-color: var(--combes-bg-base) !important;
+  color: var(--combes-text-primary) !important;
+}
+
+/* Avoid random white stripes from block groups */
+.wp-block-group {
+  background-color: transparent;
+}
+
+/* Global dark theme text contrast */
+
+body,
+.site-main,
+.content-area,
+.entry-content,
+.wp-site-blocks {
+  background-color: var(--combes-bg-base) !important;
+  color: var(--combes-text-primary) !important;
+}
+
+h1, h2, h3, h4, h5, h6,
+.section-title,
+.wp-block-heading,
+.wp-block-paragraph,
+p,
+li {
+  color: var(--combes-text-primary) !important;
+}
+
+.section-lead,
+.text-muted,
+.stat-label,
+.has-secondary-color {
+  color: var(--combes-text-muted) !important;
+}
+
+/* Hero text */
+.hero-slideshow__headline,
+.hero-slideshow__subline,
+.hero-slideshow__eyebrow {
+  color: var(--combes-text-primary) !important;
+  text-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+.hero-slideshow__subline {
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+/* Kill light Kadence header bands */
+.entry-hero,
+.entry-hero-inner,
+.page-header,
+.page-title-wrap,
+.page-title-inner {
+  background-color: var(--combes-bg-base) !important;
+  color: var(--combes-text-primary) !important;
+}
+
+/* Avoid random white stripes from block groups */
+.wp-block-group {
+  background-color: transparent;
+}
 

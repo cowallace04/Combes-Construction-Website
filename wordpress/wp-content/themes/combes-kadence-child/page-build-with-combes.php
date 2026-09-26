@@ -42,16 +42,22 @@ get_header();
 
     <!-- Wizard container -->
     <section id="build-with-combes-wizard" class="section section--surface" data-aos="fade-up">
-        <div class="section__inner">
-            <?php if ( isset( $_GET['build_submitted'] ) && '1' === $_GET['build_submitted'] ) : ?>
-                <div class="combes-card animate-fade-up" style="margin-bottom: 2rem;">
-                    <h2>Thank you for reaching out.</h2>
-                    <p>
-                        Your project inquiry has been received. Combes will review your information and follow up
-                        personally to discuss feasibility, schedule, budget, and next steps.
-                    </p>
-                </div>
-            <?php endif; ?>
+    <div class="section__inner">
+        <?php if ( isset( $_GET['build_submitted'] ) && '1' === $_GET['build_submitted'] ) : ?>
+            <div class="combes-card animate-fade-up" style="margin-bottom: 2rem;">
+                <h2>Thank you for reaching out.</h2>
+                <p>
+                    Your project inquiry has been received. Combes will review your information and follow up
+                    personally to discuss feasibility, schedule, budget, and next steps.
+                </p>
+            </div>
+        <?php elseif ( isset( $_GET['build_error'] ) ) : ?>
+            <div class="combes-card animate-fade-up" style="margin-bottom: 2rem; border-color: #f87171;">
+                <h2>There was an issue submitting your inquiry.</h2>
+                <p>Please try again. If the problem continues, contact us directly.</p>
+            </div>
+        <?php endif; ?>
+
 
             <div class="build-wizard">
 

@@ -18,11 +18,14 @@ function combes_core_inquiry_notification_recipients() {
 
 function combes_core_handle_build_with_combes_submit() {
 
-    // Validate nonce; if invalid, redirect back with error instead of throwing a fatal page.
+    // Validate nonce; if invalid, redirect back with error flag.
     if ( ! isset( $_POST['combes_build_nonce'] ) ||
          ! wp_verify_nonce( $_POST['combes_build_nonce'], 'combes_build_with_combes' ) ) {
 
-        $redirect = isset( $_POST['_wp_http_referer'] ) ? wp_unslash( $_POST['_wp_http_referer'] ) : home_url( '/build-with-combes/' );
+        $redirect = wp_get_referer();
+        if ( ! $redirect ) {
+            $redirect = home_url( '/build-with-combes/' );
+        }
         $redirect = add_query_arg( 'build_error', 'invalid_nonce', $redirect );
         wp_safe_redirect( $redirect );
         exit;
@@ -150,19 +153,22 @@ function combes_core_handle_build_with_combes_submit() {
             'post_type'   => 'combes_project_inquiry',
             'post_title'  => $post_title,
             'post_content'=> $body,
-            'post_status' => 'private', // internal only
+            'post_status' => 'private',
         ),
         true
     );
 
     if ( is_wp_error( $post_id ) ) {
-        $redirect = isset( $_POST['_wp_http_referer'] ) ? wp_unslash( $_POST['_wp_http_referer'] ) : home_url( '/build-with-combes/' );
+        $redirect = wp_get_referer();
+        if ( ! $redirect ) {
+            $redirect = home_url( '/build-with-combes/' );
+        }
         $redirect = add_query_arg( 'build_error', 'save_failed', $redirect );
         wp_safe_redirect( $redirect );
         exit;
     }
 
-    // Save structured meta
+    // Structured meta
     update_post_meta( $post_id, 'combes_inquiry_contact_name',   $name );
     update_post_meta( $post_id, 'combes_inquiry_company',        $company );
     update_post_meta( $post_id, 'combes_inquiry_email',          $email );
@@ -177,7 +183,7 @@ function combes_core_handle_build_with_combes_submit() {
     update_post_meta( $post_id, 'combes_inquiry_description',    $description );
     update_post_meta( $post_id, 'combes_inquiry_documents',      $documents_string );
 
-    // Notification email
+    // Email notification
     $recipients = combes_core_inquiry_notification_recipients();
     $subject    = '[Combes] New Project Inquiry';
     $message    = $body;
@@ -189,12 +195,16 @@ function combes_core_handle_build_with_combes_submit() {
         }
     }
 
-    // Redirect back to Build With Combes with success flag
-    $redirect = isset( $_POST['_wp_http_referer'] ) ? wp_unslash( $_POST['_wp_http_referer'] ) : home_url( '/build-with-combes/' );
+    // Success redirect
+    $redirect = wp_get_referer();
+    if ( ! $redirect ) {
+        $redirect = home_url( '/build-with-combes/' );
+    }
     $redirect = add_query_arg( 'build_submitted', '1', $redirect );
     wp_safe_redirect( $redirect );
     exit;
 }
+
 
 add_action( 'admin_post_nopriv_combes_build_with_combes_submit', 'combes_core_handle_build_with_combes_submit' );
 add_action( 'admin_post_combes_build_with_combes_submit', 'combes_core_handle_build_with_combes_submit' );
