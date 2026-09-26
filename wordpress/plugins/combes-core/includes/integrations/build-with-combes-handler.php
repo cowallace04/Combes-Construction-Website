@@ -150,7 +150,7 @@ function combes_core_handle_build_with_combes_submit() {
 
     $post_id = wp_insert_post(
         array(
-            'post_type'   => 'combes_project_inquiry',
+            'post_type'   => 'combes_inquiry',
             'post_title'  => $post_title,
             'post_content'=> $body,
             'post_status' => 'private',
@@ -204,7 +204,6 @@ function combes_core_handle_build_with_combes_submit() {
     wp_safe_redirect( $redirect );
     exit;
 }
-
 
 add_action( 'admin_post_nopriv_combes_build_with_combes_submit', 'combes_core_handle_build_with_combes_submit' );
 add_action( 'admin_post_combes_build_with_combes_submit', 'combes_core_handle_build_with_combes_submit' );

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Combes Core
- * Description:       Core business data structures for the Combes Construction website (projects, team, jobs, bidding).
+ * Description:       Core business data structures for the Combes Construction website (projects, team, jobs, inquiries).
  * Version:           0.1.0
  * Author:            Colton Wallace
  * Text Domain:       combes-core
@@ -16,7 +16,7 @@ define( 'COMBES_CORE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'COMBES_CORE_URL', plugin_dir_url( __FILE__ ) );
 
 /**
- * Load taxonomies, metadata, and admin meta boxes.
+ * Load taxonomies, metadata, integrations, and admin meta boxes.
  */
 function combes_core_load_includes() {
     // Taxonomies.
@@ -28,10 +28,9 @@ function combes_core_load_includes() {
     require_once COMBES_CORE_PATH . 'includes/metadata/register-job-meta.php';
     require_once COMBES_CORE_PATH . 'includes/metadata/register-bid-meta.php';
     require_once COMBES_CORE_PATH . 'includes/metadata/register-inquiry-meta.php';
+
+    // Front-end integrations.
     require_once COMBES_CORE_PATH . 'includes/integrations/build-with-combes-handler.php';
-
-
-
 
     // Admin meta boxes (only in admin).
     if ( is_admin() ) {
@@ -79,7 +78,6 @@ function combes_core_register_post_types() {
             'revisions',
             'custom-fields',
         ),
-        // We can keep has_archive or rely solely on the Projects page; for now keep:
         'has_archive'        => 'projects',
         'rewrite'            => array(
             'slug'       => 'projects',
@@ -182,7 +180,7 @@ function combes_core_register_post_types() {
 
     register_post_type( 'combes_job_opening', $job_args );
 
-    /* Bidding Opportunities (combes_bid_opportunity) – future use */
+    /* Bidding Opportunities (combes_bid_opportunity) – retained but hidden */
     $bid_labels = array(
         'name'               => __( 'Bidding Opportunities', 'combes-core' ),
         'singular_name'      => __( 'Bidding Opportunity', 'combes-core' ),
@@ -201,7 +199,7 @@ function combes_core_register_post_types() {
         'archives'           => __( 'Bidding Opportunity Archives', 'combes-core' ),
     );
 
-        $bid_args = array(
+    $bid_args = array(
         'labels'             => $bid_labels,
         'public'             => false,
         'show_in_rest'       => false,
@@ -218,18 +216,54 @@ function combes_core_register_post_types() {
         'has_archive'        => false,
         'rewrite'            => false,
         'publicly_queryable' => false,
-        'show_ui'            => false,   // <— important
-        'show_in_menu'       => false,   // <— important
+        'show_ui'            => false,
+        'show_in_menu'       => false,
     );
 
-
     register_post_type( 'combes_bid_opportunity', $bid_args );
+
+    /* Project Inquiries (combes_inquiry) */
+    $inquiry_labels = array(
+        'name'               => __( 'Project Inquiries', 'combes-core' ),
+        'singular_name'      => __( 'Project Inquiry', 'combes-core' ),
+        'menu_name'          => __( 'Project Inquiries', 'combes-core' ),
+        'name_admin_bar'     => __( 'Project Inquiry', 'combes-core' ),
+        'add_new'            => __( 'Add New', 'combes-core' ),
+        'add_new_item'       => __( 'Add New Inquiry', 'combes-core' ),
+        'edit_item'          => __( 'Edit Inquiry', 'combes-core' ),
+        'new_item'           => __( 'New Inquiry', 'combes-core' ),
+        'view_item'          => __( 'View Inquiry', 'combes-core' ),
+        'view_items'         => __( 'View Inquiries', 'combes-core' ),
+        'search_items'       => __( 'Search Inquiries', 'combes-core' ),
+        'not_found'          => __( 'No inquiries found.', 'combes-core' ),
+        'not_found_in_trash' => __( 'No inquiries found in Trash.', 'combes-core' ),
+        'all_items'          => __( 'All Project Inquiries', 'combes-core' ),
+        'archives'           => __( 'Project Inquiry Archives', 'combes-core' ),
+    );
+
+    $inquiry_args = array(
+        'labels'             => $inquiry_labels,
+        'public'             => false,
+        'show_in_rest'       => false,
+        'hierarchical'       => false,
+        'menu_position'      => 24,
+        'menu_icon'          => 'dashicons-email-alt',
+        'supports'           => array(
+            'title',
+            'editor',
+            'custom-fields',
+        ),
+        'has_archive'        => false,
+        'rewrite'            => false,
+        'publicly_queryable' => false,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+    );
+
+    register_post_type( 'combes_inquiry', $inquiry_args );
 }
 add_action( 'init', 'combes_core_register_post_types' );
 
-/**
- * Ensure a page exists with a given slug/title/template/parent.
- */
 /**
  * Ensure a page exists with a given slug/title/template/parent.
  * Idempotent: will reuse existing pages if they already exist.
@@ -286,14 +320,8 @@ function combes_core_seed_page_if_empty( $page_id, $content ) {
     }
 }
 
-
-
 /**
  * On plugin activation, create core pages & primary menu.
- */
-/**
- * On plugin activation, create core pages & primary menu.
- * Uses Build With Combes instead of Bidding Opportunities.
  */
 function combes_core_activate() {
 
@@ -317,7 +345,7 @@ function combes_core_activate() {
     $positions_page_id   = combes_core_ensure_page( 'available-positions', 'Available Positions', 'page.php', $careers_id );
     $internships_page_id = combes_core_ensure_page( 'internships', 'Internships', 'page.php', $careers_id );
 
-    // Seed content using your patterns – only if pages are empty.
+    // Seed content using patterns – only if pages are empty.
     combes_core_seed_page_if_empty(
         $home_id,
         '<!-- wp:pattern {"slug":"combes/home-hero"} /-->'
@@ -330,7 +358,6 @@ function combes_core_activate() {
     combes_core_seed_page_if_empty( $careers_id, '<!-- wp:pattern {"slug":"combes/page-careers"} /-->' );
     combes_core_seed_page_if_empty( $process_id, '<!-- wp:pattern {"slug":"combes/page-process"} /-->' );
     combes_core_seed_page_if_empty( $contact_id, '<!-- wp:pattern {"slug":"combes/page-contact"} /-->' );
-    // You can add patterns for history / positions / internships later if desired.
 
     // Build primary navigation menu (top-level pages only).
     $page_ids = array(
@@ -347,7 +374,6 @@ function combes_core_activate() {
     $menu      = wp_get_nav_menu_object( $menu_name );
     $menu_id   = $menu ? $menu->term_id : wp_create_nav_menu( $menu_name );
 
-    // Desired order.
     $order = array( 'home', 'about-us', 'our-process', 'projects', 'careers', 'build-with-combes', 'contact-us' );
 
     foreach ( $order as $position => $slug ) {
@@ -375,8 +401,7 @@ function combes_core_activate() {
     if ( ! is_array( $locations ) ) {
         $locations = array();
     }
-    $locations['primary'] = $menu_id; // Kadence primary location.
+    $locations['primary'] = $menu_id;
     set_theme_mod( 'nav_menu_locations', $locations );
 }
 register_activation_hook( __FILE__, 'combes_core_activate' );
-

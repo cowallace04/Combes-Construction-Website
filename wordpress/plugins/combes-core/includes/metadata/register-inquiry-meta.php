@@ -13,7 +13,7 @@ function combes_core_inquiry_meta_auth( $allowed, $meta_key, $post_id, $user_id,
 
 function combes_core_register_inquiry_meta() {
 
-    $post_type = 'combes_project_inquiry';
+    $post_type = 'combes_inquiry';
 
     // Contact info
     register_post_meta(

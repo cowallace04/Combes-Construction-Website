@@ -8,7 +8,7 @@ Text Domain: combes-kadence-child
 /* === Design system: colors & typography === */
 
 :root {
-
+  /* Core palette */
   --combes-bg-base: #060A12;
   --combes-bg-section: #060A12;
   --combes-surface-card: #1F2933;
@@ -16,6 +16,8 @@ Text Domain: combes-kadence-child
 
   --combes-blue-primary: #0054A6;
   --combes-blue-secondary: #00386F;
+  --combes-blue-accent: #0054A6; /* accent = primary */
+  --combes-blue-soft: rgba(0, 84, 166, 0.55);
 
   --combes-gold: #F6B800;
   --combes-concrete: #E5E7EB;
@@ -40,7 +42,7 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.02em;
 }
 
-/* Modular scale-ish headings */
+/* Modular headings */
 h1,
 .hero-slideshow__headline {
   font-size: clamp(2.4rem, 3vw, 3.1rem);
@@ -62,15 +64,13 @@ h3 {
   max-width: 40rem;
 }
 
+/* === Base === */
 
-
-/* Base */
 body {
   background-color: var(--combes-bg-base);
   color: var(--combes-text-primary);
 }
 
-/* Kadence content wrappers */
 .site-main,
 .content-area,
 .entry-content,
@@ -80,6 +80,7 @@ body {
 }
 
 /* Text & headings */
+
 h1, h2, h3, h4, h5, h6 {
   color: var(--combes-text-primary);
 }
@@ -89,6 +90,7 @@ li {
 }
 
 /* Links */
+
 a {
   color: var(--combes-blue-primary);
 }
@@ -98,6 +100,7 @@ a:focus {
 }
 
 /* Muted text helpers */
+
 .stat-label,
 .text-muted,
 .small,
@@ -115,16 +118,18 @@ a:focus {
   border-bottom: 1px solid var(--combes-border-subtle);
 }
 
+/* NAV: bright text on dark background */
 .main-navigation .menu > li > a {
-  color: var(--combes-text-muted);
+  color: var(--combes-text-primary) !important;
 }
 .main-navigation .menu > li > a:hover,
 .main-navigation .menu > li.current-menu-item > a,
 .main-navigation .menu > li.current-menu-ancestor > a {
-  color: var(--combes-text-primary);
+  color: var(--combes-concrete) !important;
 }
 
-/* Header buttons (e.g., Start a Project) */
+/* Header buttons */
+
 .header-button .wp-block-button__link,
 .header-button .button {
   background-color: var(--combes-blue-primary);
@@ -164,11 +169,9 @@ a:focus {
   margin: 0 auto;
 }
 .section-title {
-  font-size: 2.25rem;
   margin-bottom: 0.75rem;
 }
 .section-lead {
-  max-width: 40rem;
   color: var(--combes-text-muted);
 }
 
@@ -183,7 +186,7 @@ a:focus {
   background-color: var(--combes-bg-base);
 }
 
-/* Alternating navy bands if you add section--navy class */
+/* Alternating band helper */
 .section--navy,
 .home-hero,
 .home-contact-cta {
@@ -218,10 +221,10 @@ a:focus {
   color: #ffffff;
 }
 
-/* === Hero === */
+/* === Legacy home hero (two-column) – kept for patterns that still use it === */
 
 .home-hero {
-  background: radial-gradient(circle at top left, #0b1120 0, #050814 55%, #050814 100%);
+  background: radial-gradient(circle at top left, #0b1120 0, #060A12 55%, #060A12 100%);
 }
 .home-hero__inner {
   display: grid;
@@ -254,11 +257,95 @@ a:focus {
   overflow: hidden;
 }
 
-/* Parallax-target rows can use has-parallax-bg class; JS adjusts background-position. */
+/* Parallax backgrounds */
 .has-parallax-bg {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+}
+
+/* === Hero slideshow (homepage) === */
+
+.hero-slideshow {
+  position: relative;
+  min-height: 100vh;
+  padding-top: 0;
+  padding-bottom: 0;
+  background-color: var(--combes-bg-base);
+  overflow: hidden;
+}
+
+.hero-slideshow__slides {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* each slide is a cover block with this class */
+.hero-slideshow__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 900ms ease-in-out;
+}
+
+.hero-slideshow__slide.is-active {
+  opacity: 1;
+}
+
+/* Ken Burns-style zoom; JS adds .is-animate */
+.hero-slideshow__slide.is-animate .wp-block-cover__image-background,
+.hero-slideshow__slide.is-animate img {
+  animation: hero-kenburns 18s ease-in-out forwards;
+}
+
+@keyframes hero-kenburns {
+  0%   { transform: scale(1.05) translate3d(0, 0, 0); }
+  100% { transform: scale(1.12) translate3d(0, -12px, 0); }
+}
+
+.hero-slideshow__content {
+  position: relative;
+  z-index: 2;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.hero-slideshow__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  color: var(--combes-blue-soft);
+  margin-bottom: 0.75rem;
+}
+
+.hero-slideshow__headline {
+  margin: 0 0 1rem;
+}
+
+.hero-slideshow__subline {
+  max-width: 40rem;
+  color: var(--combes-text-muted);
+  margin-bottom: 2rem;
+}
+
+.hero-slideshow__actions .wp-block-button {
+  margin-right: 0.75rem;
+}
+
+@media (max-width: 960px) {
+  .hero-slideshow__headline {
+    font-size: 2.2rem;
+  }
+  .hero-slideshow__content {
+    padding-top: 5rem;
+    padding-bottom: 4rem;
+  }
 }
 
 /* === Featured projects grid & masonry === */
@@ -307,102 +394,6 @@ a:focus {
   }
 }
 
-/* === Hero slideshow (homepage) === */
-
-.hero-slideshow {
-  position: relative;
-  min-height: 100vh;
-  padding-top: 0;
-  padding-bottom: 0;
-  background-color: var(--combes-bg-base);
-  overflow: hidden;
-}
-
-.hero-slideshow__slides {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-/* each slide is a Kadence/WP cover block with this class */
-.hero-slideshow__slide {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 900ms ease-in-out;
-}
-
-.hero-slideshow__slide.is-active {
-  opacity: 1;
-}
-
-/* Ken Burns-style zoom; JS adds .is-animate */
-.hero-slideshow__slide.is-animate .wp-block-cover__image-background,
-.hero-slideshow__slide.is-animate img {
-  animation: hero-kenburns 18s ease-in-out forwards;
-}
-
-@keyframes hero-kenburns {
-  0%   { transform: scale(1.05) translate3d(0, 0, 0); }
-  100% { transform: scale(1.12) translate3d(0, -12px, 0); }
-}
-
-.hero-slideshow__content {
-  position: relative;
-  z-index: 2;
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 5rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 100vh;
-}
-
-.hero-slideshow__eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 0.8rem;
-  color: var(--combes-blue-soft);
-  margin-bottom: 0.75rem;
-}
-
-.hero-slideshow__headline {
-  font-size: 2.75rem;
-  line-height: 1.15;
-  margin: 0 0 1rem;
-}
-
-.hero-slideshow__subline {
-  max-width: 40rem;
-  color: var(--combes-text-muted);
-  margin-bottom: 2rem;
-}
-
-.hero-slideshow__actions .wp-block-button {
-  margin-right: 0.75rem;
-}
-
-@media (max-width: 960px) {
-  .hero-slideshow__headline {
-    font-size: 2.2rem;
-  }
-  .hero-slideshow__content {
-    padding-top: 5rem;
-    padding-bottom: 4rem;
-  }
-}
-
-/* overlay category label in project cards */
-.card__overlay-category {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--combes-blue-soft);
-  margin-bottom: 0.35rem;
-}
-
-
 /* === Project cards & hover overlay === */
 
 .card.card--project {
@@ -433,13 +424,20 @@ a:focus {
 .card--project .card__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(5, 8, 20, 0.85), rgba(5, 8, 20, 0.1));
+  background: linear-gradient(to top, rgba(6, 10, 18, 0.9), rgba(6, 10, 18, 0.1));
   opacity: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 1.25rem;
   transition: opacity 220ms ease-out;
+}
+.card__overlay-category {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--combes-blue-soft);
+  margin-bottom: 0.35rem;
 }
 .card__overlay-title {
   font-size: 1.1rem;
@@ -519,129 +517,8 @@ a:focus {
   color: var(--combes-blue-soft);
 }
 
-/* Image / mask reveal animations */
+/* === People grid === */
 
-.reveal-image {
-  overflow: hidden;
-  position: relative;
-}
-
-.reveal-image img {
-  transform: translateY(20px);
-  opacity: 0;
-  transition:
-    transform 700ms ease-out,
-    opacity 700ms ease-out;
-}
-
-.reveal-image.is-visible img {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/* Simple mask reveal using scaleX */
-.reveal-mask {
-  position: relative;
-  overflow: hidden;
-}
-
-.reveal-mask::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: var(--combes-blue-secondary);
-  transform-origin: left center;
-  transform: scaleX(1);
-  transition: transform 700ms ease-out;
-}
-
-.reveal-mask.is-visible::before {
-  transform: scaleX(0);
-}
-
-/* Text stagger: wrap words or lines in spans */
-.stagger-text span {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 400ms ease-out,
-    transform 400ms ease-out;
-}
-
-.stagger-text span.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-
-/* === Scroll animations (class-based) === */
-
-.animate-fade-up,
-.animate-fade-in,
-.animate-slide-left,
-.animate-slide-right,
-.animate-zoom-in {
-  opacity: 0;
-  transition:
-    opacity 500ms ease-out,
-    transform 500ms ease-out;
-}
-
-.animate-fade-up {
-  transform: translateY(24px);
-}
-.animate-fade-in {
-  transform: none;
-}
-.animate-slide-left {
-  transform: translateX(32px);
-}
-.animate-slide-right {
-  transform: translateX(-32px);
-}
-.animate-zoom-in {
-  transform: scale(0.96);
-}
-
-.animate-fade-up.in-view,
-.animate-fade-in.in-view,
-.animate-slide-left.in-view,
-.animate-slide-right.in-view,
-.animate-zoom-in.in-view {
-  opacity: 1;
-  transform: translateX(0) translateY(0) scale(1);
-}
-
-/* Stagger helpers */
-.animate-delay-1 {
-  transition-delay: 80ms;
-}
-.animate-delay-2 {
-  transition-delay: 160ms;
-}
-.animate-delay-3 {
-  transition-delay: 240ms;
-}
-
-/* === Responsive === */
-
-@media (max-width: 960px) {
-  .home-hero__inner {
-    grid-template-columns: 1fr;
-  }
-  .home-hero__media {
-    margin-top: 2rem;
-  }
-}
-
-@media (max-width: 640px) {
-  .home-projects__grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Our People grid */
 .combes-people-grid {
   display: grid;
   gap: 2rem;
@@ -674,7 +551,8 @@ a:focus {
   margin-top: 1rem;
 }
 
-/* Careers layout */
+/* === Careers layout === */
+
 .combes-careers__columns {
   display: grid;
   gap: 2.5rem;
@@ -699,7 +577,8 @@ a:focus {
 .combes-job-card__dept + .combes-job-card__type::before {
   content: " · ";
 }
-/* Build With Combes wizard */
+
+/* === Build With Combes wizard === */
 
 .build-wizard {
   max-width: 1100px;
@@ -825,7 +704,7 @@ a:focus {
 
 .build-card--select.is-selected {
   border-color: var(--combes-blue-primary);
-  background: rgba(31, 111, 219, 0.16);
+  background: rgba(0, 84, 166, 0.2);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
   transform: translateY(-2px);
 }
@@ -915,7 +794,18 @@ a:focus {
 
 /* Responsive tweaks */
 
+@media (max-width: 960px) {
+  .home-hero__inner {
+    grid-template-columns: 1fr;
+  }
+  .home-hero__media {
+    margin-top: 2rem;
+  }
+}
 @media (max-width: 640px) {
+  .home-projects__grid {
+    grid-template-columns: 1fr;
+  }
   .build-step {
     min-height: auto;
   }
@@ -924,149 +814,105 @@ a:focus {
   }
 }
 
-/* Ensure hero text has strong contrast */
-.hero-slideshow__headline,
-.hero-slideshow__subline,
-.hero-slideshow__eyebrow {
-  color: var(--combes-text-primary);
+/* === Image / mask reveal & stagger text === */
+
+.reveal-image {
+  overflow: hidden;
+  position: relative;
+}
+.reveal-image img {
+  transform: translateY(20px);
+  opacity: 0;
+  transition:
+    transform 700ms ease-out,
+    opacity 700ms ease-out;
+}
+.reveal-image.is-visible img {
+  transform: translateY(0);
+  opacity: 1;
 }
 
-/* Slight text shadow to separate from images */
-.hero-slideshow__headline {
-  text-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+.reveal-mask {
+  position: relative;
+  overflow: hidden;
 }
-.hero-slideshow__subline {
-  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+.reveal-mask::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--combes-blue-secondary);
+  transform-origin: left center;
+  transform: scaleX(1);
+  transition: transform 700ms ease-out;
 }
-
-/* Force Kadence page headers + content wrappers into dark theme */
-.entry-hero,
-.entry-hero-inner,
-.page-header,
-.page-title-wrap,
-.page-title,
-.page-title-inner,
-.entry-content-wrap,
-.content-bg {
-  background-color: var(--combes-bg-base) !important;
-  color: var(--combes-text-primary) !important;
+.reveal-mask.is-visible::before {
+  transform: scaleX(0);
 }
 
-/* Default block group background transparent so we don't get random white bands */
-.wp-block-group {
-  background-color: transparent;
+/* Text stagger */
+.stagger-text span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 400ms ease-out,
+    transform 400ms ease-out;
+}
+.stagger-text span.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* Global text contrast overrides */
+/* === Scroll animations (class-based) === */
 
-body,
-.site-main,
-.content-area,
-.entry-content,
-.wp-site-blocks {
-  background-color: var(--combes-bg-base) !important;
-  color: var(--combes-text-primary) !important;
+.animate-fade-up,
+.animate-fade-in,
+.animate-slide-left,
+.animate-slide-right,
+.animate-zoom-in {
+  opacity: 0;
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
 }
 
-h1, h2, h3, h4, h5, h6,
-.section-title,
-.section-lead,
-.wp-block-heading,
-.wp-block-paragraph,
-p,
-li {
-  color: var(--combes-text-primary) !important;
+.animate-fade-up {
+  transform: translateY(24px);
+}
+.animate-fade-in {
+  transform: none;
+}
+.animate-slide-left {
+  transform: translateX(32px);
+}
+.animate-slide-right {
+  transform: translateX(-32px);
+}
+.animate-zoom-in {
+  transform: scale(0.96);
 }
 
-/* Secondary/muted text */
-.text-muted,
-.stat-label,
-.has-secondary-color,
-.combes-page-subtitle,
-.section-lead {
-  color: var(--combes-text-muted) !important;
+.animate-fade-up.in-view,
+.animate-fade-in.in-view,
+.animate-slide-left.in-view,
+.animate-slide-right.in-view,
+.animate-zoom-in.in-view {
+  opacity: 1;
+  transform: translateX(0) translateY(0) scale(1);
 }
 
-/* Hero text specifically */
-.hero-slideshow__headline,
-.hero-slideshow__subline,
-.hero-slideshow__eyebrow {
-  color: var(--combes-text-primary) !important;
-  text-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+/* Stagger helpers */
+.animate-delay-1 {
+  transition-delay: 80ms;
 }
-.hero-slideshow__subline {
-  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+.animate-delay-2 {
+  transition-delay: 160ms;
 }
-
-/* Remove random light bands from Kadence page headers */
-.entry-hero,
-.entry-hero-inner,
-.page-header,
-.page-title-wrap,
-.page-title-inner {
-  background-color: var(--combes-bg-base) !important;
-  color: var(--combes-text-primary) !important;
+.animate-delay-3 {
+  transition-delay: 240ms;
 }
 
-/* Default block group background transparent so we don't get white stripes */
-.wp-block-group {
-  background-color: transparent;
-}
-
-/* Global dark theme text contrast */
-
-body,
-.site-main,
-.content-area,
-.entry-content,
-.wp-site-blocks {
-  background-color: var(--combes-bg-base) !important;
-  color: var(--combes-text-primary) !important;
-}
-
-h1, h2, h3, h4, h5, h6,
-.section-title,
-.wp-block-heading,
-.wp-block-paragraph,
-p,
-li {
-  color: var(--combes-text-primary) !important;
-}
-
-.section-lead,
-.text-muted,
-.stat-label,
-.has-secondary-color {
-  color: var(--combes-text-muted) !important;
-}
-
-/* Hero text */
-.hero-slideshow__headline,
-.hero-slideshow__subline,
-.hero-slideshow__eyebrow {
-  color: var(--combes-text-primary) !important;
-  text-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-}
-.hero-slideshow__subline {
-  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
-}
-
-/* Kill light Kadence header bands */
-.entry-hero,
-.entry-hero-inner,
-.page-header,
-.page-title-wrap,
-.page-title-inner {
-  background-color: var(--combes-bg-base) !important;
-  color: var(--combes-text-primary) !important;
-}
-
-/* Avoid random white stripes from block groups */
-.wp-block-group {
-  background-color: transparent;
-}
-
-/* Global dark theme text contrast */
+/* === Global dark theme overrides === */
 
 body,
 .site-main,
@@ -1118,4 +964,3 @@ li {
 .wp-block-group {
   background-color: transparent;
 }
-
